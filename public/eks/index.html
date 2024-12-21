@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.139.3">
+    <meta name="generator" content="Relearn 7.2.1+f1701957c30daae7cd133bec5a7968480563ce9f">
+    <meta name="description" content="AWS EKS and Kubernetes Learning Guide Cluster Setup and Configuration Create AWS EKS Cluster using eksctl CLI Install and configure eksctl. Create an EKS cluster with worker nodes. Set up kubectl to manage the cluster. Verify the cluster resources and configuration. Fundamentals Docker Fundamentals Understand containers vs. virtual machines. Learn essential Docker commands for container lifecycle management. Build, tag, and push Docker images. Work with Docker registries, such as AWS ECR. Kubernetes Fundamentals Pods: Core Kubernetes objects and their lifecycle. ReplicaSets: Manage pod replication and high availability. Deployments: Rollouts, updates, and rollbacks. Services: NodePort Service. ClusterIP Service. LoadBalancer Service. ExternalName Service. EKS Storage Solutions EKS Storage with AWS EBS CSI Driver Install and configure the AWS EBS CSI Driver. Create Persistent Volumes (PV) and Persistent Volume Claims (PVC). Mount EBS volumes to Kubernetes pods. EKS Storage with AWS RDS MySQL Database Integrate an RDS MySQL database with Kubernetes workloads. Use Kubernetes Secrets to store database credentials securely. Kubernetes Important Concepts for Application Deployments Kubernetes - Secrets Securely manage sensitive data like passwords and API keys. Create, update, and mount secrets in pods. Kubernetes - Init Containers Configure Init Containers to run setup tasks before the main container starts. Kubernetes - Liveness &amp; Readiness Probes Implement health checks for application containers. Configure probes to restart unhealthy containers or delay traffic to unready pods. Kubernetes - Requests &amp; Limits Manage resource requests and limits to optimize workload performance. Kubernetes - Namespaces, LimitRange, and Resource Quota Use namespaces to organize resources. Set up LimitRange and ResourceQuota for better resource control. Load Balancing Solutions Load Balancing using CLB - AWS Classic Load Balancer Expose Kubernetes services with AWS Classic Load Balancer. Load Balancing using NLB - AWS Network Load Balancer Configure AWS NLB for high-performance load balancing. Load Balancing using ALB - AWS Application Load Balancer ALB Ingress Controller - Install: Set up ALB Ingress Controller for Kubernetes. ALB Ingress - Basics: Basic configurations for ALB ingress. ALB Ingress - Context Path-based Routing: Route requests based on paths. ALB Ingress - SSL: Enable SSL with AWS Certificate Manager. ALB Ingress - SSL Redirect (HTTP to HTTPS): Enforce HTTPS traffic. ALB Ingress - External DNS: Integrate with Route53 for DNS management. Serverless Deployments Deploy Kubernetes Workloads on AWS Fargate Deploy applications on AWS Fargate for serverless computing. Configure Fargate Profiles: Basic profiles. Advanced profiles using YAML. CI/CD and Monitoring Build and Push Containers to AWS ECR Build Docker images and push them to AWS ECR. Deploy ECR-based images to EKS. DevOps with AWS Developer Tools Use CodeCommit, CodeBuild, and CodePipeline for CI/CD pipelines. Microservices Deployment on EKS Service Discovery: Enable service discovery in Kubernetes. Distributed Tracing with AWS X-Ray: Track requests in microservices. Canary Deployments: Gradually roll out updates to reduce risk. EKS Monitoring using CloudWatch Set up CloudWatch Agent and Fluentd for Container Insights. Monitor logs, metrics, and alarms using CloudWatch. Kubernetes Scaling EKS HPA - Horizontal Pod Autoscaler Configure HPA to scale pods based on resource metrics. EKS VPA - Vertical Pod Autoscaler Automatically adjust pod resource requests and limits. EKS CA - Cluster Autoscaler Scale worker nodes based on demand. AWS Services Covered AWS EKS: Elastic Kubernetes Service. AWS EBS: Elastic Block Store. AWS RDS: Relational Database Service (MySQL). AWS CLB: Classic Load Balancer. AWS NLB: Network Load Balancer. AWS ALB: Application Load Balancer. AWS Fargate: Serverless computing for Kubernetes. AWS ECR: Elastic Container Registry. AWS Developer Tools: CodeCommit, CodeBuild, CodePipeline. AWS X-Ray: Distributed tracing for microservices. AWS CloudWatch: Container Insights, Log Groups, Log Insights, and Alarms. AWS Route53: DNS management. AWS Certificate Manager: SSL/TLS certificates. AWS SNS: Simple Notification Service. Kubernetes Concepts Covered Kubernetes Architecture Understand the core components of Kubernetes. Core Objects Pods: Manage containerized applications. ReplicaSets: Ensure pod availability. Deployments: Manage application updates. Services: NodePort, ClusterIP, ExternalName, and LoadBalancer services. Kubernetes Networking Ingress Services: SSL configuration and redirection. Integration with external DNS. Resource Management Requests &amp; Limits: Optimize workload performance. Namespaces: Create namespaces imperatively. Configure LimitRange and ResourceQuota. Storage Storage Classes: Automate PV provisioning. Persistent Volumes (PV): Manage storage resources. Persistent Volume Claims (PVC): Request storage dynamically. Advanced Concepts Secrets: Manage sensitive information securely. Init Containers: Pre-start initialization tasks. Liveness &amp; Readiness Probes: Ensure application health. Annotations: Add metadata to Kubernetes objects. Scaling and Autoscaling HPA - Horizontal Pod Autoscaler: Scale pods based on metrics. VPA - Vertical Pod Autoscaler: Adjust resource allocation dynamically. CA - Cluster Autoscaler: Scale nodes automatically. Logging and Monitoring DaemonSets: Fluentd DaemonSet for centralized logging. ConfigMaps: Manage application configuration data. Deployment Strategies Canary Deployments: Gradual updates for testing and stability.">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Elastic Kubernetes Service (EKS) :: Amazon Managed Kubernetes">
+    <meta name="twitter:description" content="AWS EKS and Kubernetes Learning Guide Cluster Setup and Configuration Create AWS EKS Cluster using eksctl CLI Install and configure eksctl. Create an EKS cluster with worker nodes. Set up kubectl to manage the cluster. Verify the cluster resources and configuration. Fundamentals Docker Fundamentals Understand containers vs. virtual machines. Learn essential Docker commands for container lifecycle management. Build, tag, and push Docker images. Work with Docker registries, such as AWS ECR. Kubernetes Fundamentals Pods: Core Kubernetes objects and their lifecycle. ReplicaSets: Manage pod replication and high availability. Deployments: Rollouts, updates, and rollbacks. Services: NodePort Service. ClusterIP Service. LoadBalancer Service. ExternalName Service. EKS Storage Solutions EKS Storage with AWS EBS CSI Driver Install and configure the AWS EBS CSI Driver. Create Persistent Volumes (PV) and Persistent Volume Claims (PVC). Mount EBS volumes to Kubernetes pods. EKS Storage with AWS RDS MySQL Database Integrate an RDS MySQL database with Kubernetes workloads. Use Kubernetes Secrets to store database credentials securely. Kubernetes Important Concepts for Application Deployments Kubernetes - Secrets Securely manage sensitive data like passwords and API keys. Create, update, and mount secrets in pods. Kubernetes - Init Containers Configure Init Containers to run setup tasks before the main container starts. Kubernetes - Liveness &amp; Readiness Probes Implement health checks for application containers. Configure probes to restart unhealthy containers or delay traffic to unready pods. Kubernetes - Requests &amp; Limits Manage resource requests and limits to optimize workload performance. Kubernetes - Namespaces, LimitRange, and Resource Quota Use namespaces to organize resources. Set up LimitRange and ResourceQuota for better resource control. Load Balancing Solutions Load Balancing using CLB - AWS Classic Load Balancer Expose Kubernetes services with AWS Classic Load Balancer. Load Balancing using NLB - AWS Network Load Balancer Configure AWS NLB for high-performance load balancing. Load Balancing using ALB - AWS Application Load Balancer ALB Ingress Controller - Install: Set up ALB Ingress Controller for Kubernetes. ALB Ingress - Basics: Basic configurations for ALB ingress. ALB Ingress - Context Path-based Routing: Route requests based on paths. ALB Ingress - SSL: Enable SSL with AWS Certificate Manager. ALB Ingress - SSL Redirect (HTTP to HTTPS): Enforce HTTPS traffic. ALB Ingress - External DNS: Integrate with Route53 for DNS management. Serverless Deployments Deploy Kubernetes Workloads on AWS Fargate Deploy applications on AWS Fargate for serverless computing. Configure Fargate Profiles: Basic profiles. Advanced profiles using YAML. CI/CD and Monitoring Build and Push Containers to AWS ECR Build Docker images and push them to AWS ECR. Deploy ECR-based images to EKS. DevOps with AWS Developer Tools Use CodeCommit, CodeBuild, and CodePipeline for CI/CD pipelines. Microservices Deployment on EKS Service Discovery: Enable service discovery in Kubernetes. Distributed Tracing with AWS X-Ray: Track requests in microservices. Canary Deployments: Gradually roll out updates to reduce risk. EKS Monitoring using CloudWatch Set up CloudWatch Agent and Fluentd for Container Insights. Monitor logs, metrics, and alarms using CloudWatch. Kubernetes Scaling EKS HPA - Horizontal Pod Autoscaler Configure HPA to scale pods based on resource metrics. EKS VPA - Vertical Pod Autoscaler Automatically adjust pod resource requests and limits. EKS CA - Cluster Autoscaler Scale worker nodes based on demand. AWS Services Covered AWS EKS: Elastic Kubernetes Service. AWS EBS: Elastic Block Store. AWS RDS: Relational Database Service (MySQL). AWS CLB: Classic Load Balancer. AWS NLB: Network Load Balancer. AWS ALB: Application Load Balancer. AWS Fargate: Serverless computing for Kubernetes. AWS ECR: Elastic Container Registry. AWS Developer Tools: CodeCommit, CodeBuild, CodePipeline. AWS X-Ray: Distributed tracing for microservices. AWS CloudWatch: Container Insights, Log Groups, Log Insights, and Alarms. AWS Route53: DNS management. AWS Certificate Manager: SSL/TLS certificates. AWS SNS: Simple Notification Service. Kubernetes Concepts Covered Kubernetes Architecture Understand the core components of Kubernetes. Core Objects Pods: Manage containerized applications. ReplicaSets: Ensure pod availability. Deployments: Manage application updates. Services: NodePort, ClusterIP, ExternalName, and LoadBalancer services. Kubernetes Networking Ingress Services: SSL configuration and redirection. Integration with external DNS. Resource Management Requests &amp; Limits: Optimize workload performance. Namespaces: Create namespaces imperatively. Configure LimitRange and ResourceQuota. Storage Storage Classes: Automate PV provisioning. Persistent Volumes (PV): Manage storage resources. Persistent Volume Claims (PVC): Request storage dynamically. Advanced Concepts Secrets: Manage sensitive information securely. Init Containers: Pre-start initialization tasks. Liveness &amp; Readiness Probes: Ensure application health. Annotations: Add metadata to Kubernetes objects. Scaling and Autoscaling HPA - Horizontal Pod Autoscaler: Scale pods based on metrics. VPA - Vertical Pod Autoscaler: Adjust resource allocation dynamically. CA - Cluster Autoscaler: Scale nodes automatically. Logging and Monitoring DaemonSets: Fluentd DaemonSet for centralized logging. ConfigMaps: Manage application configuration data. Deployment Strategies Canary Deployments: Gradual updates for testing and stability.">
+    <meta property="og:url" content="https://khushiramsingh680.github.io/eks/eks/index.html">
+    <meta property="og:site_name" content="Amazon Managed Kubernetes">
+    <meta property="og:title" content="Elastic Kubernetes Service (EKS) :: Amazon Managed Kubernetes">
+    <meta property="og:description" content="AWS EKS and Kubernetes Learning Guide Cluster Setup and Configuration Create AWS EKS Cluster using eksctl CLI Install and configure eksctl. Create an EKS cluster with worker nodes. Set up kubectl to manage the cluster. Verify the cluster resources and configuration. Fundamentals Docker Fundamentals Understand containers vs. virtual machines. Learn essential Docker commands for container lifecycle management. Build, tag, and push Docker images. Work with Docker registries, such as AWS ECR. Kubernetes Fundamentals Pods: Core Kubernetes objects and their lifecycle. ReplicaSets: Manage pod replication and high availability. Deployments: Rollouts, updates, and rollbacks. Services: NodePort Service. ClusterIP Service. LoadBalancer Service. ExternalName Service. EKS Storage Solutions EKS Storage with AWS EBS CSI Driver Install and configure the AWS EBS CSI Driver. Create Persistent Volumes (PV) and Persistent Volume Claims (PVC). Mount EBS volumes to Kubernetes pods. EKS Storage with AWS RDS MySQL Database Integrate an RDS MySQL database with Kubernetes workloads. Use Kubernetes Secrets to store database credentials securely. Kubernetes Important Concepts for Application Deployments Kubernetes - Secrets Securely manage sensitive data like passwords and API keys. Create, update, and mount secrets in pods. Kubernetes - Init Containers Configure Init Containers to run setup tasks before the main container starts. Kubernetes - Liveness &amp; Readiness Probes Implement health checks for application containers. Configure probes to restart unhealthy containers or delay traffic to unready pods. Kubernetes - Requests &amp; Limits Manage resource requests and limits to optimize workload performance. Kubernetes - Namespaces, LimitRange, and Resource Quota Use namespaces to organize resources. Set up LimitRange and ResourceQuota for better resource control. Load Balancing Solutions Load Balancing using CLB - AWS Classic Load Balancer Expose Kubernetes services with AWS Classic Load Balancer. Load Balancing using NLB - AWS Network Load Balancer Configure AWS NLB for high-performance load balancing. Load Balancing using ALB - AWS Application Load Balancer ALB Ingress Controller - Install: Set up ALB Ingress Controller for Kubernetes. ALB Ingress - Basics: Basic configurations for ALB ingress. ALB Ingress - Context Path-based Routing: Route requests based on paths. ALB Ingress - SSL: Enable SSL with AWS Certificate Manager. ALB Ingress - SSL Redirect (HTTP to HTTPS): Enforce HTTPS traffic. ALB Ingress - External DNS: Integrate with Route53 for DNS management. Serverless Deployments Deploy Kubernetes Workloads on AWS Fargate Deploy applications on AWS Fargate for serverless computing. Configure Fargate Profiles: Basic profiles. Advanced profiles using YAML. CI/CD and Monitoring Build and Push Containers to AWS ECR Build Docker images and push them to AWS ECR. Deploy ECR-based images to EKS. DevOps with AWS Developer Tools Use CodeCommit, CodeBuild, and CodePipeline for CI/CD pipelines. Microservices Deployment on EKS Service Discovery: Enable service discovery in Kubernetes. Distributed Tracing with AWS X-Ray: Track requests in microservices. Canary Deployments: Gradually roll out updates to reduce risk. EKS Monitoring using CloudWatch Set up CloudWatch Agent and Fluentd for Container Insights. Monitor logs, metrics, and alarms using CloudWatch. Kubernetes Scaling EKS HPA - Horizontal Pod Autoscaler Configure HPA to scale pods based on resource metrics. EKS VPA - Vertical Pod Autoscaler Automatically adjust pod resource requests and limits. EKS CA - Cluster Autoscaler Scale worker nodes based on demand. AWS Services Covered AWS EKS: Elastic Kubernetes Service. AWS EBS: Elastic Block Store. AWS RDS: Relational Database Service (MySQL). AWS CLB: Classic Load Balancer. AWS NLB: Network Load Balancer. AWS ALB: Application Load Balancer. AWS Fargate: Serverless computing for Kubernetes. AWS ECR: Elastic Container Registry. AWS Developer Tools: CodeCommit, CodeBuild, CodePipeline. AWS X-Ray: Distributed tracing for microservices. AWS CloudWatch: Container Insights, Log Groups, Log Insights, and Alarms. AWS Route53: DNS management. AWS Certificate Manager: SSL/TLS certificates. AWS SNS: Simple Notification Service. Kubernetes Concepts Covered Kubernetes Architecture Understand the core components of Kubernetes. Core Objects Pods: Manage containerized applications. ReplicaSets: Ensure pod availability. Deployments: Manage application updates. Services: NodePort, ClusterIP, ExternalName, and LoadBalancer services. Kubernetes Networking Ingress Services: SSL configuration and redirection. Integration with external DNS. Resource Management Requests &amp; Limits: Optimize workload performance. Namespaces: Create namespaces imperatively. Configure LimitRange and ResourceQuota. Storage Storage Classes: Automate PV provisioning. Persistent Volumes (PV): Manage storage resources. Persistent Volume Claims (PVC): Request storage dynamically. Advanced Concepts Secrets: Manage sensitive information securely. Init Containers: Pre-start initialization tasks. Liveness &amp; Readiness Probes: Ensure application health. Annotations: Add metadata to Kubernetes objects. Scaling and Autoscaling HPA - Horizontal Pod Autoscaler: Scale pods based on metrics. VPA - Vertical Pod Autoscaler: Adjust resource allocation dynamically. CA - Cluster Autoscaler: Scale nodes automatically. Logging and Monitoring DaemonSets: Fluentd DaemonSet for centralized logging. ConfigMaps: Manage application configuration data. Deployment Strategies Canary Deployments: Gradual updates for testing and stability.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="website">
+    <meta itemprop="name" content="Elastic Kubernetes Service (EKS) :: Amazon Managed Kubernetes">
+    <meta itemprop="description" content="AWS EKS and Kubernetes Learning Guide Cluster Setup and Configuration Create AWS EKS Cluster using eksctl CLI Install and configure eksctl. Create an EKS cluster with worker nodes. Set up kubectl to manage the cluster. Verify the cluster resources and configuration. Fundamentals Docker Fundamentals Understand containers vs. virtual machines. Learn essential Docker commands for container lifecycle management. Build, tag, and push Docker images. Work with Docker registries, such as AWS ECR. Kubernetes Fundamentals Pods: Core Kubernetes objects and their lifecycle. ReplicaSets: Manage pod replication and high availability. Deployments: Rollouts, updates, and rollbacks. Services: NodePort Service. ClusterIP Service. LoadBalancer Service. ExternalName Service. EKS Storage Solutions EKS Storage with AWS EBS CSI Driver Install and configure the AWS EBS CSI Driver. Create Persistent Volumes (PV) and Persistent Volume Claims (PVC). Mount EBS volumes to Kubernetes pods. EKS Storage with AWS RDS MySQL Database Integrate an RDS MySQL database with Kubernetes workloads. Use Kubernetes Secrets to store database credentials securely. Kubernetes Important Concepts for Application Deployments Kubernetes - Secrets Securely manage sensitive data like passwords and API keys. Create, update, and mount secrets in pods. Kubernetes - Init Containers Configure Init Containers to run setup tasks before the main container starts. Kubernetes - Liveness &amp; Readiness Probes Implement health checks for application containers. Configure probes to restart unhealthy containers or delay traffic to unready pods. Kubernetes - Requests &amp; Limits Manage resource requests and limits to optimize workload performance. Kubernetes - Namespaces, LimitRange, and Resource Quota Use namespaces to organize resources. Set up LimitRange and ResourceQuota for better resource control. Load Balancing Solutions Load Balancing using CLB - AWS Classic Load Balancer Expose Kubernetes services with AWS Classic Load Balancer. Load Balancing using NLB - AWS Network Load Balancer Configure AWS NLB for high-performance load balancing. Load Balancing using ALB - AWS Application Load Balancer ALB Ingress Controller - Install: Set up ALB Ingress Controller for Kubernetes. ALB Ingress - Basics: Basic configurations for ALB ingress. ALB Ingress - Context Path-based Routing: Route requests based on paths. ALB Ingress - SSL: Enable SSL with AWS Certificate Manager. ALB Ingress - SSL Redirect (HTTP to HTTPS): Enforce HTTPS traffic. ALB Ingress - External DNS: Integrate with Route53 for DNS management. Serverless Deployments Deploy Kubernetes Workloads on AWS Fargate Deploy applications on AWS Fargate for serverless computing. Configure Fargate Profiles: Basic profiles. Advanced profiles using YAML. CI/CD and Monitoring Build and Push Containers to AWS ECR Build Docker images and push them to AWS ECR. Deploy ECR-based images to EKS. DevOps with AWS Developer Tools Use CodeCommit, CodeBuild, and CodePipeline for CI/CD pipelines. Microservices Deployment on EKS Service Discovery: Enable service discovery in Kubernetes. Distributed Tracing with AWS X-Ray: Track requests in microservices. Canary Deployments: Gradually roll out updates to reduce risk. EKS Monitoring using CloudWatch Set up CloudWatch Agent and Fluentd for Container Insights. Monitor logs, metrics, and alarms using CloudWatch. Kubernetes Scaling EKS HPA - Horizontal Pod Autoscaler Configure HPA to scale pods based on resource metrics. EKS VPA - Vertical Pod Autoscaler Automatically adjust pod resource requests and limits. EKS CA - Cluster Autoscaler Scale worker nodes based on demand. AWS Services Covered AWS EKS: Elastic Kubernetes Service. AWS EBS: Elastic Block Store. AWS RDS: Relational Database Service (MySQL). AWS CLB: Classic Load Balancer. AWS NLB: Network Load Balancer. AWS ALB: Application Load Balancer. AWS Fargate: Serverless computing for Kubernetes. AWS ECR: Elastic Container Registry. AWS Developer Tools: CodeCommit, CodeBuild, CodePipeline. AWS X-Ray: Distributed tracing for microservices. AWS CloudWatch: Container Insights, Log Groups, Log Insights, and Alarms. AWS Route53: DNS management. AWS Certificate Manager: SSL/TLS certificates. AWS SNS: Simple Notification Service. Kubernetes Concepts Covered Kubernetes Architecture Understand the core components of Kubernetes. Core Objects Pods: Manage containerized applications. ReplicaSets: Ensure pod availability. Deployments: Manage application updates. Services: NodePort, ClusterIP, ExternalName, and LoadBalancer services. Kubernetes Networking Ingress Services: SSL configuration and redirection. Integration with external DNS. Resource Management Requests &amp; Limits: Optimize workload performance. Namespaces: Create namespaces imperatively. Configure LimitRange and ResourceQuota. Storage Storage Classes: Automate PV provisioning. Persistent Volumes (PV): Manage storage resources. Persistent Volume Claims (PVC): Request storage dynamically. Advanced Concepts Secrets: Manage sensitive information securely. Init Containers: Pre-start initialization tasks. Liveness &amp; Readiness Probes: Ensure application health. Annotations: Add metadata to Kubernetes objects. Scaling and Autoscaling HPA - Horizontal Pod Autoscaler: Scale pods based on metrics. VPA - Vertical Pod Autoscaler: Adjust resource allocation dynamically. CA - Cluster Autoscaler: Scale nodes automatically. Logging and Monitoring DaemonSets: Fluentd DaemonSet for centralized logging. ConfigMaps: Manage application configuration data. Deployment Strategies Canary Deployments: Gradual updates for testing and stability.">
+    <meta itemprop="wordCount" content="756">
+    <title>Elastic Kubernetes Service (EKS) :: Amazon Managed Kubernetes</title>
+    <link href="../eks/index.xml" rel="alternate" type="application/rss+xml" title="Elastic Kubernetes Service (EKS) :: Amazon Managed Kubernetes">
+    <link href="../css/fontawesome-all.min.css?1734774997" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/fontawesome-all.min.css?1734774997" rel="stylesheet"></noscript>
+    <link href="../css/auto-complete.css?1734774997" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../css/auto-complete.css?1734774997" rel="stylesheet"></noscript>
+    <link href="../css/perfect-scrollbar.min.css?1734774997" rel="stylesheet">
+    <link href="../css/theme.min.css?1734774997" rel="stylesheet">
+    <link href="../css/format-html.min.css?1734774997" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.relBasePath='..';
+      window.relearn.relBaseUri='..';
+      window.relearn.absBaseUri='https:\/\/khushiramsingh680.github.io\/eks';
+      window.relearn.min = `.min`;
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.localStorage.setItem(window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.localStorage.getItem(window.relearn.absBaseUri + "/variant");
+        var select = document.querySelector("#R-select-variant");
+        if (select) {
+          select.value = variant;
+        }
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.localStorage.getItem(window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.localStorage.setItem(window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="../eks/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#cluster-setup-and-configuration">Cluster Setup and Configuration</a>
+      <ul>
+        <li><a href="#create-aws-eks-cluster-using-eksctl-cli">Create AWS EKS Cluster using eksctl CLI</a></li>
+      </ul>
+    </li>
+    <li><a href="#fundamentals">Fundamentals</a>
+      <ul>
+        <li><a href="#docker-fundamentals">Docker Fundamentals</a></li>
+        <li><a href="#kubernetes-fundamentals">Kubernetes Fundamentals</a></li>
+      </ul>
+    </li>
+    <li><a href="#eks-storage-solutions">EKS Storage Solutions</a>
+      <ul>
+        <li><a href="#eks-storage-with-aws-ebs-csi-driver">EKS Storage with AWS EBS CSI Driver</a></li>
+        <li><a href="#eks-storage-with-aws-rds-mysql-database">EKS Storage with AWS RDS MySQL Database</a></li>
+      </ul>
+    </li>
+    <li><a href="#kubernetes-important-concepts-for-application-deployments">Kubernetes Important Concepts for Application Deployments</a>
+      <ul>
+        <li><a href="#kubernetes---secrets">Kubernetes - Secrets</a></li>
+        <li><a href="#kubernetes---init-containers">Kubernetes - Init Containers</a></li>
+        <li><a href="#kubernetes---liveness--readiness-probes">Kubernetes - Liveness &amp; Readiness Probes</a></li>
+        <li><a href="#kubernetes---requests--limits">Kubernetes - Requests &amp; Limits</a></li>
+        <li><a href="#kubernetes---namespaces-limitrange-and-resource-quota">Kubernetes - Namespaces, LimitRange, and Resource Quota</a></li>
+      </ul>
+    </li>
+    <li><a href="#load-balancing-solutions">Load Balancing Solutions</a>
+      <ul>
+        <li><a href="#load-balancing-using-clb---aws-classic-load-balancer">Load Balancing using CLB - AWS Classic Load Balancer</a></li>
+        <li><a href="#load-balancing-using-nlb---aws-network-load-balancer">Load Balancing using NLB - AWS Network Load Balancer</a></li>
+        <li><a href="#load-balancing-using-alb---aws-application-load-balancer">Load Balancing using ALB - AWS Application Load Balancer</a></li>
+      </ul>
+    </li>
+    <li><a href="#serverless-deployments">Serverless Deployments</a>
+      <ul>
+        <li><a href="#deploy-kubernetes-workloads-on-aws-fargate">Deploy Kubernetes Workloads on AWS Fargate</a></li>
+      </ul>
+    </li>
+    <li><a href="#cicd-and-monitoring">CI/CD and Monitoring</a>
+      <ul>
+        <li><a href="#build-and-push-containers-to-aws-ecr">Build and Push Containers to AWS ECR</a></li>
+        <li><a href="#devops-with-aws-developer-tools">DevOps with AWS Developer Tools</a></li>
+        <li><a href="#microservices-deployment-on-eks">Microservices Deployment on EKS</a></li>
+        <li><a href="#eks-monitoring-using-cloudwatch">EKS Monitoring using CloudWatch</a></li>
+      </ul>
+    </li>
+    <li><a href="#kubernetes-scaling">Kubernetes Scaling</a>
+      <ul>
+        <li><a href="#eks-hpa---horizontal-pod-autoscaler">EKS HPA - Horizontal Pod Autoscaler</a></li>
+        <li><a href="#eks-vpa---vertical-pod-autoscaler">EKS VPA - Vertical Pod Autoscaler</a></li>
+        <li><a href="#eks-ca---cluster-autoscaler">EKS CA - Cluster Autoscaler</a></li>
+      </ul>
+    </li>
+    <li><a href="#aws-services-covered">AWS Services Covered</a></li>
+    <li><a href="#kubernetes-concepts-covered">Kubernetes Concepts Covered</a>
+      <ul>
+        <li><a href="#kubernetes-architecture">Kubernetes Architecture</a></li>
+        <li><a href="#core-objects">Core Objects</a></li>
+        <li><a href="#kubernetes-networking">Kubernetes Networking</a></li>
+        <li><a href="#resource-management">Resource Management</a></li>
+        <li><a href="#storage">Storage</a></li>
+        <li><a href="#advanced-concepts">Advanced Concepts</a></li>
+        <li><a href="#scaling-and-autoscaling">Scaling and Autoscaling</a></li>
+        <li><a href="#logging-and-monitoring">Logging and Monitoring</a></li>
+        <li><a href="#deployment-strategies">Deployment Strategies</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Elastic Kubernetes Service (EKS)</span><meta itemprop="position" content="1"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="../index.html" title="Amazon Managed Kubernetes (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="../eks/k8s/index.html" title="Kubernetes Installation (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable chapter" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="chapter narrow">
+  <header class="headline">
+  </header>
+<div class="article-subheading">Chapter 1</div>
+
+<h1 id="elastic-kubernetes-service-eks">Elastic Kubernetes Service (EKS)</h1>
+
+<h1 id="aws-eks-and-kubernetes-learning-guide">AWS EKS and Kubernetes Learning Guide</h1>
+<h2 id="cluster-setup-and-configuration">Cluster Setup and Configuration</h2>
+<h3 id="create-aws-eks-cluster-using-eksctl-cli">Create AWS EKS Cluster using eksctl CLI</h3>
+<ul>
+<li>Install and configure <code>eksctl</code>.</li>
+<li>Create an EKS cluster with worker nodes.</li>
+<li>Set up <code>kubectl</code> to manage the cluster.</li>
+<li>Verify the cluster resources and configuration.</li>
+</ul>
+<hr>
+<h2 id="fundamentals">Fundamentals</h2>
+<h3 id="docker-fundamentals">Docker Fundamentals</h3>
+<ul>
+<li>Understand containers vs. virtual machines.</li>
+<li>Learn essential Docker commands for container lifecycle management.</li>
+<li>Build, tag, and push Docker images.</li>
+<li>Work with Docker registries, such as AWS ECR.</li>
+</ul>
+<h3 id="kubernetes-fundamentals">Kubernetes Fundamentals</h3>
+<ul>
+<li><strong>Pods</strong>: Core Kubernetes objects and their lifecycle.</li>
+<li><strong>ReplicaSets</strong>: Manage pod replication and high availability.</li>
+<li><strong>Deployments</strong>: Rollouts, updates, and rollbacks.</li>
+<li><strong>Services</strong>:
+<ul>
+<li>NodePort Service.</li>
+<li>ClusterIP Service.</li>
+<li>LoadBalancer Service.</li>
+<li>ExternalName Service.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="eks-storage-solutions">EKS Storage Solutions</h2>
+<h3 id="eks-storage-with-aws-ebs-csi-driver">EKS Storage with AWS EBS CSI Driver</h3>
+<ul>
+<li>Install and configure the AWS EBS CSI Driver.</li>
+<li>Create Persistent Volumes (PV) and Persistent Volume Claims (PVC).</li>
+<li>Mount EBS volumes to Kubernetes pods.</li>
+</ul>
+<h3 id="eks-storage-with-aws-rds-mysql-database">EKS Storage with AWS RDS MySQL Database</h3>
+<ul>
+<li>Integrate an RDS MySQL database with Kubernetes workloads.</li>
+<li>Use Kubernetes Secrets to store database credentials securely.</li>
+</ul>
+<hr>
+<h2 id="kubernetes-important-concepts-for-application-deployments">Kubernetes Important Concepts for Application Deployments</h2>
+<h3 id="kubernetes---secrets">Kubernetes - Secrets</h3>
+<ul>
+<li>Securely manage sensitive data like passwords and API keys.</li>
+<li>Create, update, and mount secrets in pods.</li>
+</ul>
+<h3 id="kubernetes---init-containers">Kubernetes - Init Containers</h3>
+<ul>
+<li>Configure Init Containers to run setup tasks before the main container starts.</li>
+</ul>
+<h3 id="kubernetes---liveness--readiness-probes">Kubernetes - Liveness &amp; Readiness Probes</h3>
+<ul>
+<li>Implement health checks for application containers.</li>
+<li>Configure probes to restart unhealthy containers or delay traffic to unready pods.</li>
+</ul>
+<h3 id="kubernetes---requests--limits">Kubernetes - Requests &amp; Limits</h3>
+<ul>
+<li>Manage resource requests and limits to optimize workload performance.</li>
+</ul>
+<h3 id="kubernetes---namespaces-limitrange-and-resource-quota">Kubernetes - Namespaces, LimitRange, and Resource Quota</h3>
+<ul>
+<li>Use namespaces to organize resources.</li>
+<li>Set up LimitRange and ResourceQuota for better resource control.</li>
+</ul>
+<hr>
+<h2 id="load-balancing-solutions">Load Balancing Solutions</h2>
+<h3 id="load-balancing-using-clb---aws-classic-load-balancer">Load Balancing using CLB - AWS Classic Load Balancer</h3>
+<ul>
+<li>Expose Kubernetes services with AWS Classic Load Balancer.</li>
+</ul>
+<h3 id="load-balancing-using-nlb---aws-network-load-balancer">Load Balancing using NLB - AWS Network Load Balancer</h3>
+<ul>
+<li>Configure AWS NLB for high-performance load balancing.</li>
+</ul>
+<h3 id="load-balancing-using-alb---aws-application-load-balancer">Load Balancing using ALB - AWS Application Load Balancer</h3>
+<ul>
+<li><strong>ALB Ingress Controller - Install</strong>: Set up ALB Ingress Controller for Kubernetes.</li>
+<li><strong>ALB Ingress - Basics</strong>: Basic configurations for ALB ingress.</li>
+<li><strong>ALB Ingress - Context Path-based Routing</strong>: Route requests based on paths.</li>
+<li><strong>ALB Ingress - SSL</strong>: Enable SSL with AWS Certificate Manager.</li>
+<li><strong>ALB Ingress - SSL Redirect (HTTP to HTTPS)</strong>: Enforce HTTPS traffic.</li>
+<li><strong>ALB Ingress - External DNS</strong>: Integrate with Route53 for DNS management.</li>
+</ul>
+<hr>
+<h2 id="serverless-deployments">Serverless Deployments</h2>
+<h3 id="deploy-kubernetes-workloads-on-aws-fargate">Deploy Kubernetes Workloads on AWS Fargate</h3>
+<ul>
+<li>Deploy applications on AWS Fargate for serverless computing.</li>
+<li>Configure <strong>Fargate Profiles</strong>:
+<ul>
+<li>Basic profiles.</li>
+<li>Advanced profiles using YAML.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="cicd-and-monitoring">CI/CD and Monitoring</h2>
+<h3 id="build-and-push-containers-to-aws-ecr">Build and Push Containers to AWS ECR</h3>
+<ul>
+<li>Build Docker images and push them to AWS ECR.</li>
+<li>Deploy ECR-based images to EKS.</li>
+</ul>
+<h3 id="devops-with-aws-developer-tools">DevOps with AWS Developer Tools</h3>
+<ul>
+<li>Use CodeCommit, CodeBuild, and CodePipeline for CI/CD pipelines.</li>
+</ul>
+<h3 id="microservices-deployment-on-eks">Microservices Deployment on EKS</h3>
+<ul>
+<li><strong>Service Discovery</strong>: Enable service discovery in Kubernetes.</li>
+<li><strong>Distributed Tracing with AWS X-Ray</strong>: Track requests in microservices.</li>
+<li><strong>Canary Deployments</strong>: Gradually roll out updates to reduce risk.</li>
+</ul>
+<h3 id="eks-monitoring-using-cloudwatch">EKS Monitoring using CloudWatch</h3>
+<ul>
+<li>Set up CloudWatch Agent and Fluentd for Container Insights.</li>
+<li>Monitor logs, metrics, and alarms using CloudWatch.</li>
+</ul>
+<hr>
+<h2 id="kubernetes-scaling">Kubernetes Scaling</h2>
+<h3 id="eks-hpa---horizontal-pod-autoscaler">EKS HPA - Horizontal Pod Autoscaler</h3>
+<ul>
+<li>Configure HPA to scale pods based on resource metrics.</li>
+</ul>
+<h3 id="eks-vpa---vertical-pod-autoscaler">EKS VPA - Vertical Pod Autoscaler</h3>
+<ul>
+<li>Automatically adjust pod resource requests and limits.</li>
+</ul>
+<h3 id="eks-ca---cluster-autoscaler">EKS CA - Cluster Autoscaler</h3>
+<ul>
+<li>Scale worker nodes based on demand.</li>
+</ul>
+<hr>
+<h2 id="aws-services-covered">AWS Services Covered</h2>
+<ul>
+<li><strong>AWS EKS</strong>: Elastic Kubernetes Service.</li>
+<li><strong>AWS EBS</strong>: Elastic Block Store.</li>
+<li><strong>AWS RDS</strong>: Relational Database Service (MySQL).</li>
+<li><strong>AWS CLB</strong>: Classic Load Balancer.</li>
+<li><strong>AWS NLB</strong>: Network Load Balancer.</li>
+<li><strong>AWS ALB</strong>: Application Load Balancer.</li>
+<li><strong>AWS Fargate</strong>: Serverless computing for Kubernetes.</li>
+<li><strong>AWS ECR</strong>: Elastic Container Registry.</li>
+<li><strong>AWS Developer Tools</strong>: CodeCommit, CodeBuild, CodePipeline.</li>
+<li><strong>AWS X-Ray</strong>: Distributed tracing for microservices.</li>
+<li><strong>AWS CloudWatch</strong>: Container Insights, Log Groups, Log Insights, and Alarms.</li>
+<li><strong>AWS Route53</strong>: DNS management.</li>
+<li><strong>AWS Certificate Manager</strong>: SSL/TLS certificates.</li>
+<li><strong>AWS SNS</strong>: Simple Notification Service.</li>
+</ul>
+<hr>
+<h2 id="kubernetes-concepts-covered">Kubernetes Concepts Covered</h2>
+<h3 id="kubernetes-architecture">Kubernetes Architecture</h3>
+<ul>
+<li>Understand the core components of Kubernetes.</li>
+</ul>
+<h3 id="core-objects">Core Objects</h3>
+<ul>
+<li><strong>Pods</strong>: Manage containerized applications.</li>
+<li><strong>ReplicaSets</strong>: Ensure pod availability.</li>
+<li><strong>Deployments</strong>: Manage application updates.</li>
+<li><strong>Services</strong>:
+<ul>
+<li>NodePort, ClusterIP, ExternalName, and LoadBalancer services.</li>
+</ul>
+</li>
+</ul>
+<h3 id="kubernetes-networking">Kubernetes Networking</h3>
+<ul>
+<li><strong>Ingress Services</strong>:
+<ul>
+<li>SSL configuration and redirection.</li>
+<li>Integration with external DNS.</li>
+</ul>
+</li>
+</ul>
+<h3 id="resource-management">Resource Management</h3>
+<ul>
+<li><strong>Requests &amp; Limits</strong>: Optimize workload performance.</li>
+<li><strong>Namespaces</strong>:
+<ul>
+<li>Create namespaces imperatively.</li>
+<li>Configure LimitRange and ResourceQuota.</li>
+</ul>
+</li>
+</ul>
+<h3 id="storage">Storage</h3>
+<ul>
+<li><strong>Storage Classes</strong>: Automate PV provisioning.</li>
+<li><strong>Persistent Volumes (PV)</strong>: Manage storage resources.</li>
+<li><strong>Persistent Volume Claims (PVC)</strong>: Request storage dynamically.</li>
+</ul>
+<h3 id="advanced-concepts">Advanced Concepts</h3>
+<ul>
+<li><strong>Secrets</strong>: Manage sensitive information securely.</li>
+<li><strong>Init Containers</strong>: Pre-start initialization tasks.</li>
+<li><strong>Liveness &amp; Readiness Probes</strong>: Ensure application health.</li>
+<li><strong>Annotations</strong>: Add metadata to Kubernetes objects.</li>
+</ul>
+<h3 id="scaling-and-autoscaling">Scaling and Autoscaling</h3>
+<ul>
+<li><strong>HPA - Horizontal Pod Autoscaler</strong>: Scale pods based on metrics.</li>
+<li><strong>VPA - Vertical Pod Autoscaler</strong>: Adjust resource allocation dynamically.</li>
+<li><strong>CA - Cluster Autoscaler</strong>: Scale nodes automatically.</li>
+</ul>
+<h3 id="logging-and-monitoring">Logging and Monitoring</h3>
+<ul>
+<li><strong>DaemonSets</strong>: Fluentd DaemonSet for centralized logging.</li>
+<li><strong>ConfigMaps</strong>: Manage application configuration data.</li>
+</ul>
+<h3 id="deployment-strategies">Deployment Strategies</h3>
+<ul>
+<li><strong>Canary Deployments</strong>: Gradual updates for testing and stability.</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="../index.html">
+Amazon Managed Kubernetes
+          </a>
+        </div>
+        <script>
+          window.index_js_url="../searchindex.en.js?1734774997";
+        </script>
+        <search><form action="../search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../js/auto-complete.js?1734774997" defer></script>
+        <script src="../js/lunr/lunr.min.js?1734774997" defer></script>
+        <script src="../js/lunr/lunr.stemmer.support.min.js?1734774997" defer></script>
+        <script src="../js/lunr/lunr.multi.min.js?1734774997" defer></script>
+        <script src="../js/lunr/lunr.en.min.js?1734774997" defer></script>
+        <script src="../js/search.js?1734774997" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-shortcutmenu-home" class="R-sidebarmenu">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="active parent " data-nav-id="/eks/index.html"><a class="padding" href="../eks/index.html">Elastic Kubernetes Service (EKS)</a><ul id="R-subsections-bcff6955233da1a657302761daded8d1" class="collapsible-menu">
+            <li class="" data-nav-id="/eks/k8s/index.html"><a class="padding" href="../eks/k8s/index.html">Kubernetes Installation</a></li></ul></li>
+          </ul>
+        </div>
+    
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-language"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = this.querySelector( this.value ).dataset.url;">
+                      <option id="R-select-language-en" value="#R-select-language-en" data-url="../eks/index.html" lang="en-us" selected></option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-paint-brush"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.relearn.changeVariant( this.value );">
+                      <option id="R-select-variant-auto" value="auto" selected>Auto</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.relearn.markVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fa-fw fas fa-history"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+        <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../js/clipboard.min.js?1734774997" defer></script>
+    <script src="../js/perfect-scrollbar.min.js?1734774997" defer></script>
+    <script src="../js/theme.js?1734774997" defer></script>
+  </body>
+</html>

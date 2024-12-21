@@ -1,0 +1,16 @@
+baseURL = 'https://khushiramsingh680.github.io/eks/'
+languageCode = 'en-us'
+title = 'Amazon Managed Kubernetes'
+theme = 'relearn'
+relativeURLs = true
+canonifyURLs = true
+
+[params]
+  # Relearn theme-specific parameters
+  colorTheme = "light"
+  layout = "wide"
+
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
