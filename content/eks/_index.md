@@ -4,8 +4,6 @@ type = "chapter"
 weight = 1
 +++
 
-# AWS EKS and Kubernetes Learning Guide
-
 ## Cluster Setup and Configuration
 
 ### Create AWS EKS Cluster using eksctl CLI
