@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/eks/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=eks/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.139.3">
     <meta name="generator" content="Relearn 7.2.1+f1701957c30daae7cd133bec5a7968480563ce9f">
-    <meta name="description" content="EKS - Create Cluster List of Topics Install CLIs AWS CLI kubectl eksctl Create EKS Cluster Create EKS Node Groups Understand EKS Cluster Pricing EKS Control Plane EKS Worker Nodes EKS Fargate Profile Delete EKS Clusters">
+    <meta name="description" content="EKS - Create Cluster List of Topics Install CLIs AWS CLI kubectl eksctl Create EKS Cluster Create EKS Node Groups Understand EKS Cluster Pricing EKS Control Plane EKS Worker Nodes EKS Fargate Profile Delete EKS Clusters Install AWS, kubectl &amp; eksctl CLI’s Step-00: Introduction Install AWS CLI Install kubectl CLI Install eksctl CLI Step-01: Install AWS CLI Reference-1: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html Reference-2: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html Step-01-01: MAC - Install and configure AWS CLI Download the binary and install via command line using below two commands. # Download Binarycurl &#34;https://awscli.amazonaws.com/AWSCLIV2.pkg&#34; -o &#34;AWSCLIV2.pkg&#34;# Install the binarysudo installer -pkg ./AWSCLIV2.pkg -target /Verify the installation aws --versionaws-cli/2.0.7 Python/3.7.4 Darwin/19.4.0 botocore/2.0.0dev11which awsReference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html Step-01-02: Windows 10 - Install and configure AWS CLI The AWS CLI version 2 is supported on Windows XP or later. The AWS CLI version 2 supports only 64-bit versions of Windows. Download Binary: https://awscli.amazonaws.com/AWSCLIV2.msi Install the downloaded binary (standard windows install) aws --versionaws-cli/2.0.8 Python/3.7.5 Windows/10 botocore/2.0.0dev12Reference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html Step-01-03: Configure AWS Command Line using Security Credentials Go to AWS Management Console –&gt; Services –&gt; IAM Select the IAM User: kalyan Important Note: Use only IAM user to generate Security Credentials. Never ever use Root User. (Highly not recommended) Click on Security credentials tab Click on Create access key Copy Access ID and Secret access key Go to command line and provide the required details aws configureAWS Access Key ID [None]: ABCDEFGHIAZBERTUCNGG (Replace your creds when prompted)AWS Secret Access Key [None]: uMe7fumK1IdDB094q2sGFhM5Bqt3HQRw3IHZzBDTm (Replace your creds when prompted)Default region name [None]: us-east-1Default output format [None]: jsonTest if AWS CLI is working after configuring the above aws ec2 describe-vpcsStep-02: Install kubectl CLI IMPORTANT NOTE: Kubectl binaries for EKS please prefer to use from Amazon (Amazon EKS-vended kubectl binary) This will help us to get the exact Kubectl client version based on our EKS Cluster version. You can use the below documentation link to download the binary. Reference: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html Step-02-01: MAC - Install and configure kubectl Kubectl version we are using here is 1.16.8 (It may vary based on Cluster version you are planning use in AWS EKS) # Download the Packagemkdir kubectlbinarycd kubectlbinarycurl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl# Provide execute permissionschmod &#43;x ./kubectl# Set the Path by copying to user Home Directorymkdir -p $HOME/bin &amp;&amp; cp ./kubectl $HOME/bin/kubectl &amp;&amp; export PATH=$PATH:$HOME/binecho &#39;export PATH=$PATH:$HOME/bin&#39; &gt;&gt; ~/.bash_profile# Verify the kubectl versionkubectl version --short --clientOutput: Client Version: v1.16.8-eks-e16311Step-02-02: Windows 10 - Install and configure kubectl Install kubectl on Windows 10 mkdir kubectlbinarycd kubectlbinarycurl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exeUpdate the system Path environment variable C:\Users\KALYAN\Documents\kubectlbinaryVerify the kubectl client version kubectl version --short --clientkubectl version --clientStep-03: Install eksctl CLI Step-03-01: eksctl on Mac # Install Homebrew on MacOs/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)&#34;# Install the Weaveworks Homebrew tap.brew tap weaveworks/tap# Install the Weaveworks Homebrew tap.brew install weaveworks/tap/eksctl# Verify eksctl versioneksctl versionStep-03-02: eksctl on windows or linux For windows and linux OS, you can refer below documentation link. Reference: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl References: https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html Create EKS Cluster &amp; Node Groups Step-00: Introduction Understand about EKS Core Objects Control Plane Worker Nodes &amp; Node Groups Fargate Profiles VPC Create EKS Cluster Associate EKS Cluster to IAM OIDC Provider Create EKS Node Groups Verify Cluster, Node Groups, EC2 Instances, IAM Policies and Node Groups Step-01: Create EKS Cluster using eksctl It will take 15 to 20 minutes to create the Cluster Control Plane # Create Clustereksctl create cluster --name=eksdemo1 \--region=us-east-1 \--zones=us-east-1a,us-east-1b \--without-nodegroup # Get List of clusterseksctl get cluster Step-02: Create &amp; Associate IAM OIDC Provider for our EKS Cluster To enable and use AWS IAM roles for Kubernetes service accounts on our EKS cluster, we must create &amp; associate OIDC identity provider. To do so using eksctl we can use the below command. Use latest eksctl version (as on today the latest version is 0.21.0) # Templateeksctl utils associate-iam-oidc-provider \--region region-code \--cluster &lt;cluter-name&gt; \--approve# Replace with region &amp; cluster nameeksctl utils associate-iam-oidc-provider \--region us-east-1 \--cluster eksdemo1 \--approveStep-03: Create EC2 Keypair Create a new EC2 Keypair with name as kube-demo This keypair we will use it when creating the EKS NodeGroup. This will help us to login to the EKS Worker Nodes using Terminal. Step-04: Create Node Group with additional Add-Ons in Public Subnets These add-ons will create the respective IAM policies for us automatically within our Node Group role. # Create Public Node Group eksctl create nodegroup --cluster=eksdemo1 \--region=us-east-1 \--name=eksdemo1-ng-public1 \--node-type=t3.medium \--nodes=2 \--nodes-min=2 \--nodes-max=4 \--node-volume-size=20 \--ssh-access \--ssh-public-key=kube-demo \--managed \--asg-access \--external-dns-access \--full-ecr-access \--appmesh-access \--alb-ingress-access Step-05: Verify Cluster &amp; Nodes Verify NodeGroup subnets to confirm EC2 Instances are in Public Subnet Verify the node group subnet to ensure it created in public subnets Go to Services -&gt; EKS -&gt; eksdemo -&gt; eksdemo1-ng1-public Click on Associated subnet in Details tab Click on Route Table Tab. We should see that internet route via Internet Gateway (0.0.0.0/0 -&gt; igw-xxxxxxxx) Verify Cluster, NodeGroup in EKS Management Console Go to Services -&gt; Elastic Kubernetes Service -&gt; eksdemo1 List Worker Nodes # List EKS clusterseksctl get cluster# List NodeGroups in a clustereksctl get nodegroup --cluster=&lt;clusterName&gt;# List Nodes in current kubernetes clusterkubectl get nodes -o wide# Our kubectl context should be automatically changed to new clusterkubectl config view --minifyVerify Worker Node IAM Role and list of Policies Go to Services -&gt; EC2 -&gt; Worker Nodes Click on IAM Role associated to EC2 Worker Nodes Verify Security Group Associated to Worker Nodes Go to Services -&gt; EC2 -&gt; Worker Nodes Click on Security Group associated to EC2 Instance which contains remote in the name. Verify CloudFormation Stacks Verify Control Plane Stack &amp; Events Verify NodeGroup Stack &amp; Events Login to Worker Node using Keypai kube-demo Login to worker node # For MAC or Linux or Windows10ssh -i kube-demo.pem ec2-user@&lt;Public-IP-of-Worker-Node&gt;# For Windows 7Use puttyStep-06: Update Worker Nodes Security Group to allow all traffic We need to allow All Traffic on worker node security group Additional References https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html EKS Cluster Pricing Steo-01: Very Important EKS Pricing Note EKS is not free (Unlike other AWS Services) In short, no free-tier for EKS. EKS Cluster Pricing - We pay $0.10 per hour for each Amazon EKS cluster- Per Day: $2.4- For 30 days: $72EKS Worker Nodes Pricing - EC2 - You pay for AWS resources (e.g. EC2 instances or EBS volumes) - T3 Medium Server in N.Virginia- $0.0416 per Hour- Per Day: $0.9984 - Approximately $1- Per Month: $30 per 1 t3.medium server- Reference: https://aws.amazon.com/ec2/pricing/on-demand/- In short, if we run 1 EKS Cluster and 1 t3.medium worker node **continuously** for 1 month, our bill is going to be around $102 to $110- If we take 5 days to complete this course, and if we run 1 EKS Cluster and 2 t3.medium Worker nodes continuosly for 5 days it will cost us approximately around $25. EKS Fargate Profile - AWS Fargate pricing is calculated based on the **vCPU and memory** resources used from the time you start to download your container image until the EKS Pod terminates.- **Reference:** https://aws.amazon.com/fargate/pricing/ - Amazon EKS support for AWS Fargate is available in us-east-1, us-east-2, eu-west-1, and ap-northeast-1.Important Notes Important Note-1: If you are using your personal AWS Account, then ensure you delete and recreate cluster and worker nodes as and when needed. Important Note-2: We cant stop our EC2 Instances which are in Kubernetes cluster unlike regular EC2 Instances. So we need to delete the worker nodes (Node Group) if we are not using it during our learning process. Delete EKS Cluster &amp; Node Groups Step-01: Delete Node Group We can delete a nodegroup separately using below eksctl delete nodegroup # List EKS Clusterseksctl get clusters# Capture Node Group nameeksctl get nodegroup --cluster=&lt;clusterName&gt;eksctl get nodegroup --cluster=eksdemo1# Delete Node Groupeksctl delete nodegroup --cluster=&lt;clusterName&gt; --name=&lt;nodegroupName&gt;eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1Step-02: Delete Cluster We can delete cluster using eksctl delete cluster # Delete Clustereksctl delete cluster &lt;clusterName&gt;eksctl delete cluster eksdemo1Important Notes Note-1: Rollback any Security Group Changes When we create a EKS cluster using eksctl it creates the worker node security group with only port 22 access. When we progress through the course, we will be creating many NodePort Services to access and test our applications via browser. During this process, we need to add an additional rule to this automatically created security group, allowing access to our applications we have deployed. So the point we need to understand here is when we are deleting the cluster using eksctl, its core components should be in same state which means roll back the change we have done to security group before deleting the cluster. In this way, cluster will get deleted without any issues, else we might have issues and we need to refer cloudformation events and manually delete few things. In short, we need to go to many places for deletions. Note-2: Rollback any EC2 Worker Node Instance Role - Policy changes When we are doing EBS Storage Section with EBS CSI Driver we will add a custom policy to worker node IAM role. When you are deleting the cluster, first roll back that change and delete it. This way we don’t face any issues during cluster deletion.">
     <meta name="author" content="">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="EKS Installation :: Amazon Managed Kubernetes">
-    <meta name="twitter:description" content="EKS - Create Cluster List of Topics Install CLIs AWS CLI kubectl eksctl Create EKS Cluster Create EKS Node Groups Understand EKS Cluster Pricing EKS Control Plane EKS Worker Nodes EKS Fargate Profile Delete EKS Clusters">
-    <meta property="og:url" content="http://localhost:1313/eks/eks/k8s/index.html">
+    <meta name="twitter:description" content="EKS - Create Cluster List of Topics Install CLIs AWS CLI kubectl eksctl Create EKS Cluster Create EKS Node Groups Understand EKS Cluster Pricing EKS Control Plane EKS Worker Nodes EKS Fargate Profile Delete EKS Clusters Install AWS, kubectl &amp; eksctl CLI’s Step-00: Introduction Install AWS CLI Install kubectl CLI Install eksctl CLI Step-01: Install AWS CLI Reference-1: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html Reference-2: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html Step-01-01: MAC - Install and configure AWS CLI Download the binary and install via command line using below two commands. # Download Binarycurl &#34;https://awscli.amazonaws.com/AWSCLIV2.pkg&#34; -o &#34;AWSCLIV2.pkg&#34;# Install the binarysudo installer -pkg ./AWSCLIV2.pkg -target /Verify the installation aws --versionaws-cli/2.0.7 Python/3.7.4 Darwin/19.4.0 botocore/2.0.0dev11which awsReference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html Step-01-02: Windows 10 - Install and configure AWS CLI The AWS CLI version 2 is supported on Windows XP or later. The AWS CLI version 2 supports only 64-bit versions of Windows. Download Binary: https://awscli.amazonaws.com/AWSCLIV2.msi Install the downloaded binary (standard windows install) aws --versionaws-cli/2.0.8 Python/3.7.5 Windows/10 botocore/2.0.0dev12Reference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html Step-01-03: Configure AWS Command Line using Security Credentials Go to AWS Management Console –&gt; Services –&gt; IAM Select the IAM User: kalyan Important Note: Use only IAM user to generate Security Credentials. Never ever use Root User. (Highly not recommended) Click on Security credentials tab Click on Create access key Copy Access ID and Secret access key Go to command line and provide the required details aws configureAWS Access Key ID [None]: ABCDEFGHIAZBERTUCNGG (Replace your creds when prompted)AWS Secret Access Key [None]: uMe7fumK1IdDB094q2sGFhM5Bqt3HQRw3IHZzBDTm (Replace your creds when prompted)Default region name [None]: us-east-1Default output format [None]: jsonTest if AWS CLI is working after configuring the above aws ec2 describe-vpcsStep-02: Install kubectl CLI IMPORTANT NOTE: Kubectl binaries for EKS please prefer to use from Amazon (Amazon EKS-vended kubectl binary) This will help us to get the exact Kubectl client version based on our EKS Cluster version. You can use the below documentation link to download the binary. Reference: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html Step-02-01: MAC - Install and configure kubectl Kubectl version we are using here is 1.16.8 (It may vary based on Cluster version you are planning use in AWS EKS) # Download the Packagemkdir kubectlbinarycd kubectlbinarycurl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl# Provide execute permissionschmod &#43;x ./kubectl# Set the Path by copying to user Home Directorymkdir -p $HOME/bin &amp;&amp; cp ./kubectl $HOME/bin/kubectl &amp;&amp; export PATH=$PATH:$HOME/binecho &#39;export PATH=$PATH:$HOME/bin&#39; &gt;&gt; ~/.bash_profile# Verify the kubectl versionkubectl version --short --clientOutput: Client Version: v1.16.8-eks-e16311Step-02-02: Windows 10 - Install and configure kubectl Install kubectl on Windows 10 mkdir kubectlbinarycd kubectlbinarycurl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exeUpdate the system Path environment variable C:\Users\KALYAN\Documents\kubectlbinaryVerify the kubectl client version kubectl version --short --clientkubectl version --clientStep-03: Install eksctl CLI Step-03-01: eksctl on Mac # Install Homebrew on MacOs/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)&#34;# Install the Weaveworks Homebrew tap.brew tap weaveworks/tap# Install the Weaveworks Homebrew tap.brew install weaveworks/tap/eksctl# Verify eksctl versioneksctl versionStep-03-02: eksctl on windows or linux For windows and linux OS, you can refer below documentation link. Reference: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl References: https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html Create EKS Cluster &amp; Node Groups Step-00: Introduction Understand about EKS Core Objects Control Plane Worker Nodes &amp; Node Groups Fargate Profiles VPC Create EKS Cluster Associate EKS Cluster to IAM OIDC Provider Create EKS Node Groups Verify Cluster, Node Groups, EC2 Instances, IAM Policies and Node Groups Step-01: Create EKS Cluster using eksctl It will take 15 to 20 minutes to create the Cluster Control Plane # Create Clustereksctl create cluster --name=eksdemo1 \--region=us-east-1 \--zones=us-east-1a,us-east-1b \--without-nodegroup # Get List of clusterseksctl get cluster Step-02: Create &amp; Associate IAM OIDC Provider for our EKS Cluster To enable and use AWS IAM roles for Kubernetes service accounts on our EKS cluster, we must create &amp; associate OIDC identity provider. To do so using eksctl we can use the below command. Use latest eksctl version (as on today the latest version is 0.21.0) # Templateeksctl utils associate-iam-oidc-provider \--region region-code \--cluster &lt;cluter-name&gt; \--approve# Replace with region &amp; cluster nameeksctl utils associate-iam-oidc-provider \--region us-east-1 \--cluster eksdemo1 \--approveStep-03: Create EC2 Keypair Create a new EC2 Keypair with name as kube-demo This keypair we will use it when creating the EKS NodeGroup. This will help us to login to the EKS Worker Nodes using Terminal. Step-04: Create Node Group with additional Add-Ons in Public Subnets These add-ons will create the respective IAM policies for us automatically within our Node Group role. # Create Public Node Group eksctl create nodegroup --cluster=eksdemo1 \--region=us-east-1 \--name=eksdemo1-ng-public1 \--node-type=t3.medium \--nodes=2 \--nodes-min=2 \--nodes-max=4 \--node-volume-size=20 \--ssh-access \--ssh-public-key=kube-demo \--managed \--asg-access \--external-dns-access \--full-ecr-access \--appmesh-access \--alb-ingress-access Step-05: Verify Cluster &amp; Nodes Verify NodeGroup subnets to confirm EC2 Instances are in Public Subnet Verify the node group subnet to ensure it created in public subnets Go to Services -&gt; EKS -&gt; eksdemo -&gt; eksdemo1-ng1-public Click on Associated subnet in Details tab Click on Route Table Tab. We should see that internet route via Internet Gateway (0.0.0.0/0 -&gt; igw-xxxxxxxx) Verify Cluster, NodeGroup in EKS Management Console Go to Services -&gt; Elastic Kubernetes Service -&gt; eksdemo1 List Worker Nodes # List EKS clusterseksctl get cluster# List NodeGroups in a clustereksctl get nodegroup --cluster=&lt;clusterName&gt;# List Nodes in current kubernetes clusterkubectl get nodes -o wide# Our kubectl context should be automatically changed to new clusterkubectl config view --minifyVerify Worker Node IAM Role and list of Policies Go to Services -&gt; EC2 -&gt; Worker Nodes Click on IAM Role associated to EC2 Worker Nodes Verify Security Group Associated to Worker Nodes Go to Services -&gt; EC2 -&gt; Worker Nodes Click on Security Group associated to EC2 Instance which contains remote in the name. Verify CloudFormation Stacks Verify Control Plane Stack &amp; Events Verify NodeGroup Stack &amp; Events Login to Worker Node using Keypai kube-demo Login to worker node # For MAC or Linux or Windows10ssh -i kube-demo.pem ec2-user@&lt;Public-IP-of-Worker-Node&gt;# For Windows 7Use puttyStep-06: Update Worker Nodes Security Group to allow all traffic We need to allow All Traffic on worker node security group Additional References https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html EKS Cluster Pricing Steo-01: Very Important EKS Pricing Note EKS is not free (Unlike other AWS Services) In short, no free-tier for EKS. EKS Cluster Pricing - We pay $0.10 per hour for each Amazon EKS cluster- Per Day: $2.4- For 30 days: $72EKS Worker Nodes Pricing - EC2 - You pay for AWS resources (e.g. EC2 instances or EBS volumes) - T3 Medium Server in N.Virginia- $0.0416 per Hour- Per Day: $0.9984 - Approximately $1- Per Month: $30 per 1 t3.medium server- Reference: https://aws.amazon.com/ec2/pricing/on-demand/- In short, if we run 1 EKS Cluster and 1 t3.medium worker node **continuously** for 1 month, our bill is going to be around $102 to $110- If we take 5 days to complete this course, and if we run 1 EKS Cluster and 2 t3.medium Worker nodes continuosly for 5 days it will cost us approximately around $25. EKS Fargate Profile - AWS Fargate pricing is calculated based on the **vCPU and memory** resources used from the time you start to download your container image until the EKS Pod terminates.- **Reference:** https://aws.amazon.com/fargate/pricing/ - Amazon EKS support for AWS Fargate is available in us-east-1, us-east-2, eu-west-1, and ap-northeast-1.Important Notes Important Note-1: If you are using your personal AWS Account, then ensure you delete and recreate cluster and worker nodes as and when needed. Important Note-2: We cant stop our EC2 Instances which are in Kubernetes cluster unlike regular EC2 Instances. So we need to delete the worker nodes (Node Group) if we are not using it during our learning process. Delete EKS Cluster &amp; Node Groups Step-01: Delete Node Group We can delete a nodegroup separately using below eksctl delete nodegroup # List EKS Clusterseksctl get clusters# Capture Node Group nameeksctl get nodegroup --cluster=&lt;clusterName&gt;eksctl get nodegroup --cluster=eksdemo1# Delete Node Groupeksctl delete nodegroup --cluster=&lt;clusterName&gt; --name=&lt;nodegroupName&gt;eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1Step-02: Delete Cluster We can delete cluster using eksctl delete cluster # Delete Clustereksctl delete cluster &lt;clusterName&gt;eksctl delete cluster eksdemo1Important Notes Note-1: Rollback any Security Group Changes When we create a EKS cluster using eksctl it creates the worker node security group with only port 22 access. When we progress through the course, we will be creating many NodePort Services to access and test our applications via browser. During this process, we need to add an additional rule to this automatically created security group, allowing access to our applications we have deployed. So the point we need to understand here is when we are deleting the cluster using eksctl, its core components should be in same state which means roll back the change we have done to security group before deleting the cluster. In this way, cluster will get deleted without any issues, else we might have issues and we need to refer cloudformation events and manually delete few things. In short, we need to go to many places for deletions. Note-2: Rollback any EC2 Worker Node Instance Role - Policy changes When we are doing EBS Storage Section with EBS CSI Driver we will add a custom policy to worker node IAM role. When you are deleting the cluster, first roll back that change and delete it. This way we don’t face any issues during cluster deletion.">
+    <meta property="og:url" content="https://khushiramsingh680.github.io/eks/eks/k8s/index.html">
     <meta property="og:site_name" content="Amazon Managed Kubernetes">
     <meta property="og:title" content="EKS Installation :: Amazon Managed Kubernetes">
-    <meta property="og:description" content="EKS - Create Cluster List of Topics Install CLIs AWS CLI kubectl eksctl Create EKS Cluster Create EKS Node Groups Understand EKS Cluster Pricing EKS Control Plane EKS Worker Nodes EKS Fargate Profile Delete EKS Clusters">
+    <meta property="og:description" content="EKS - Create Cluster List of Topics Install CLIs AWS CLI kubectl eksctl Create EKS Cluster Create EKS Node Groups Understand EKS Cluster Pricing EKS Control Plane EKS Worker Nodes EKS Fargate Profile Delete EKS Clusters Install AWS, kubectl &amp; eksctl CLI’s Step-00: Introduction Install AWS CLI Install kubectl CLI Install eksctl CLI Step-01: Install AWS CLI Reference-1: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html Reference-2: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html Step-01-01: MAC - Install and configure AWS CLI Download the binary and install via command line using below two commands. # Download Binarycurl &#34;https://awscli.amazonaws.com/AWSCLIV2.pkg&#34; -o &#34;AWSCLIV2.pkg&#34;# Install the binarysudo installer -pkg ./AWSCLIV2.pkg -target /Verify the installation aws --versionaws-cli/2.0.7 Python/3.7.4 Darwin/19.4.0 botocore/2.0.0dev11which awsReference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html Step-01-02: Windows 10 - Install and configure AWS CLI The AWS CLI version 2 is supported on Windows XP or later. The AWS CLI version 2 supports only 64-bit versions of Windows. Download Binary: https://awscli.amazonaws.com/AWSCLIV2.msi Install the downloaded binary (standard windows install) aws --versionaws-cli/2.0.8 Python/3.7.5 Windows/10 botocore/2.0.0dev12Reference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html Step-01-03: Configure AWS Command Line using Security Credentials Go to AWS Management Console –&gt; Services –&gt; IAM Select the IAM User: kalyan Important Note: Use only IAM user to generate Security Credentials. Never ever use Root User. (Highly not recommended) Click on Security credentials tab Click on Create access key Copy Access ID and Secret access key Go to command line and provide the required details aws configureAWS Access Key ID [None]: ABCDEFGHIAZBERTUCNGG (Replace your creds when prompted)AWS Secret Access Key [None]: uMe7fumK1IdDB094q2sGFhM5Bqt3HQRw3IHZzBDTm (Replace your creds when prompted)Default region name [None]: us-east-1Default output format [None]: jsonTest if AWS CLI is working after configuring the above aws ec2 describe-vpcsStep-02: Install kubectl CLI IMPORTANT NOTE: Kubectl binaries for EKS please prefer to use from Amazon (Amazon EKS-vended kubectl binary) This will help us to get the exact Kubectl client version based on our EKS Cluster version. You can use the below documentation link to download the binary. Reference: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html Step-02-01: MAC - Install and configure kubectl Kubectl version we are using here is 1.16.8 (It may vary based on Cluster version you are planning use in AWS EKS) # Download the Packagemkdir kubectlbinarycd kubectlbinarycurl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl# Provide execute permissionschmod &#43;x ./kubectl# Set the Path by copying to user Home Directorymkdir -p $HOME/bin &amp;&amp; cp ./kubectl $HOME/bin/kubectl &amp;&amp; export PATH=$PATH:$HOME/binecho &#39;export PATH=$PATH:$HOME/bin&#39; &gt;&gt; ~/.bash_profile# Verify the kubectl versionkubectl version --short --clientOutput: Client Version: v1.16.8-eks-e16311Step-02-02: Windows 10 - Install and configure kubectl Install kubectl on Windows 10 mkdir kubectlbinarycd kubectlbinarycurl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exeUpdate the system Path environment variable C:\Users\KALYAN\Documents\kubectlbinaryVerify the kubectl client version kubectl version --short --clientkubectl version --clientStep-03: Install eksctl CLI Step-03-01: eksctl on Mac # Install Homebrew on MacOs/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)&#34;# Install the Weaveworks Homebrew tap.brew tap weaveworks/tap# Install the Weaveworks Homebrew tap.brew install weaveworks/tap/eksctl# Verify eksctl versioneksctl versionStep-03-02: eksctl on windows or linux For windows and linux OS, you can refer below documentation link. Reference: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl References: https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html Create EKS Cluster &amp; Node Groups Step-00: Introduction Understand about EKS Core Objects Control Plane Worker Nodes &amp; Node Groups Fargate Profiles VPC Create EKS Cluster Associate EKS Cluster to IAM OIDC Provider Create EKS Node Groups Verify Cluster, Node Groups, EC2 Instances, IAM Policies and Node Groups Step-01: Create EKS Cluster using eksctl It will take 15 to 20 minutes to create the Cluster Control Plane # Create Clustereksctl create cluster --name=eksdemo1 \--region=us-east-1 \--zones=us-east-1a,us-east-1b \--without-nodegroup # Get List of clusterseksctl get cluster Step-02: Create &amp; Associate IAM OIDC Provider for our EKS Cluster To enable and use AWS IAM roles for Kubernetes service accounts on our EKS cluster, we must create &amp; associate OIDC identity provider. To do so using eksctl we can use the below command. Use latest eksctl version (as on today the latest version is 0.21.0) # Templateeksctl utils associate-iam-oidc-provider \--region region-code \--cluster &lt;cluter-name&gt; \--approve# Replace with region &amp; cluster nameeksctl utils associate-iam-oidc-provider \--region us-east-1 \--cluster eksdemo1 \--approveStep-03: Create EC2 Keypair Create a new EC2 Keypair with name as kube-demo This keypair we will use it when creating the EKS NodeGroup. This will help us to login to the EKS Worker Nodes using Terminal. Step-04: Create Node Group with additional Add-Ons in Public Subnets These add-ons will create the respective IAM policies for us automatically within our Node Group role. # Create Public Node Group eksctl create nodegroup --cluster=eksdemo1 \--region=us-east-1 \--name=eksdemo1-ng-public1 \--node-type=t3.medium \--nodes=2 \--nodes-min=2 \--nodes-max=4 \--node-volume-size=20 \--ssh-access \--ssh-public-key=kube-demo \--managed \--asg-access \--external-dns-access \--full-ecr-access \--appmesh-access \--alb-ingress-access Step-05: Verify Cluster &amp; Nodes Verify NodeGroup subnets to confirm EC2 Instances are in Public Subnet Verify the node group subnet to ensure it created in public subnets Go to Services -&gt; EKS -&gt; eksdemo -&gt; eksdemo1-ng1-public Click on Associated subnet in Details tab Click on Route Table Tab. We should see that internet route via Internet Gateway (0.0.0.0/0 -&gt; igw-xxxxxxxx) Verify Cluster, NodeGroup in EKS Management Console Go to Services -&gt; Elastic Kubernetes Service -&gt; eksdemo1 List Worker Nodes # List EKS clusterseksctl get cluster# List NodeGroups in a clustereksctl get nodegroup --cluster=&lt;clusterName&gt;# List Nodes in current kubernetes clusterkubectl get nodes -o wide# Our kubectl context should be automatically changed to new clusterkubectl config view --minifyVerify Worker Node IAM Role and list of Policies Go to Services -&gt; EC2 -&gt; Worker Nodes Click on IAM Role associated to EC2 Worker Nodes Verify Security Group Associated to Worker Nodes Go to Services -&gt; EC2 -&gt; Worker Nodes Click on Security Group associated to EC2 Instance which contains remote in the name. Verify CloudFormation Stacks Verify Control Plane Stack &amp; Events Verify NodeGroup Stack &amp; Events Login to Worker Node using Keypai kube-demo Login to worker node # For MAC or Linux or Windows10ssh -i kube-demo.pem ec2-user@&lt;Public-IP-of-Worker-Node&gt;# For Windows 7Use puttyStep-06: Update Worker Nodes Security Group to allow all traffic We need to allow All Traffic on worker node security group Additional References https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html EKS Cluster Pricing Steo-01: Very Important EKS Pricing Note EKS is not free (Unlike other AWS Services) In short, no free-tier for EKS. EKS Cluster Pricing - We pay $0.10 per hour for each Amazon EKS cluster- Per Day: $2.4- For 30 days: $72EKS Worker Nodes Pricing - EC2 - You pay for AWS resources (e.g. EC2 instances or EBS volumes) - T3 Medium Server in N.Virginia- $0.0416 per Hour- Per Day: $0.9984 - Approximately $1- Per Month: $30 per 1 t3.medium server- Reference: https://aws.amazon.com/ec2/pricing/on-demand/- In short, if we run 1 EKS Cluster and 1 t3.medium worker node **continuously** for 1 month, our bill is going to be around $102 to $110- If we take 5 days to complete this course, and if we run 1 EKS Cluster and 2 t3.medium Worker nodes continuosly for 5 days it will cost us approximately around $25. EKS Fargate Profile - AWS Fargate pricing is calculated based on the **vCPU and memory** resources used from the time you start to download your container image until the EKS Pod terminates.- **Reference:** https://aws.amazon.com/fargate/pricing/ - Amazon EKS support for AWS Fargate is available in us-east-1, us-east-2, eu-west-1, and ap-northeast-1.Important Notes Important Note-1: If you are using your personal AWS Account, then ensure you delete and recreate cluster and worker nodes as and when needed. Important Note-2: We cant stop our EC2 Instances which are in Kubernetes cluster unlike regular EC2 Instances. So we need to delete the worker nodes (Node Group) if we are not using it during our learning process. Delete EKS Cluster &amp; Node Groups Step-01: Delete Node Group We can delete a nodegroup separately using below eksctl delete nodegroup # List EKS Clusterseksctl get clusters# Capture Node Group nameeksctl get nodegroup --cluster=&lt;clusterName&gt;eksctl get nodegroup --cluster=eksdemo1# Delete Node Groupeksctl delete nodegroup --cluster=&lt;clusterName&gt; --name=&lt;nodegroupName&gt;eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1Step-02: Delete Cluster We can delete cluster using eksctl delete cluster # Delete Clustereksctl delete cluster &lt;clusterName&gt;eksctl delete cluster eksdemo1Important Notes Note-1: Rollback any Security Group Changes When we create a EKS cluster using eksctl it creates the worker node security group with only port 22 access. When we progress through the course, we will be creating many NodePort Services to access and test our applications via browser. During this process, we need to add an additional rule to this automatically created security group, allowing access to our applications we have deployed. So the point we need to understand here is when we are deleting the cluster using eksctl, its core components should be in same state which means roll back the change we have done to security group before deleting the cluster. In this way, cluster will get deleted without any issues, else we might have issues and we need to refer cloudformation events and manually delete few things. In short, we need to go to many places for deletions. Note-2: Rollback any EC2 Worker Node Instance Role - Policy changes When we are doing EBS Storage Section with EBS CSI Driver we will add a custom policy to worker node IAM role. When you are deleting the cluster, first roll back that change and delete it. This way we don’t face any issues during cluster deletion.">
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
     <meta property="article:section" content="Elastic Kubernetes Service (EKS)">
     <meta itemprop="name" content="EKS Installation :: Amazon Managed Kubernetes">
-    <meta itemprop="description" content="EKS - Create Cluster List of Topics Install CLIs AWS CLI kubectl eksctl Create EKS Cluster Create EKS Node Groups Understand EKS Cluster Pricing EKS Control Plane EKS Worker Nodes EKS Fargate Profile Delete EKS Clusters">
-    <meta itemprop="wordCount" content="36">
+    <meta itemprop="description" content="EKS - Create Cluster List of Topics Install CLIs AWS CLI kubectl eksctl Create EKS Cluster Create EKS Node Groups Understand EKS Cluster Pricing EKS Control Plane EKS Worker Nodes EKS Fargate Profile Delete EKS Clusters Install AWS, kubectl &amp; eksctl CLI’s Step-00: Introduction Install AWS CLI Install kubectl CLI Install eksctl CLI Step-01: Install AWS CLI Reference-1: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html Reference-2: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html Step-01-01: MAC - Install and configure AWS CLI Download the binary and install via command line using below two commands. # Download Binarycurl &#34;https://awscli.amazonaws.com/AWSCLIV2.pkg&#34; -o &#34;AWSCLIV2.pkg&#34;# Install the binarysudo installer -pkg ./AWSCLIV2.pkg -target /Verify the installation aws --versionaws-cli/2.0.7 Python/3.7.4 Darwin/19.4.0 botocore/2.0.0dev11which awsReference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html Step-01-02: Windows 10 - Install and configure AWS CLI The AWS CLI version 2 is supported on Windows XP or later. The AWS CLI version 2 supports only 64-bit versions of Windows. Download Binary: https://awscli.amazonaws.com/AWSCLIV2.msi Install the downloaded binary (standard windows install) aws --versionaws-cli/2.0.8 Python/3.7.5 Windows/10 botocore/2.0.0dev12Reference: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html Step-01-03: Configure AWS Command Line using Security Credentials Go to AWS Management Console –&gt; Services –&gt; IAM Select the IAM User: kalyan Important Note: Use only IAM user to generate Security Credentials. Never ever use Root User. (Highly not recommended) Click on Security credentials tab Click on Create access key Copy Access ID and Secret access key Go to command line and provide the required details aws configureAWS Access Key ID [None]: ABCDEFGHIAZBERTUCNGG (Replace your creds when prompted)AWS Secret Access Key [None]: uMe7fumK1IdDB094q2sGFhM5Bqt3HQRw3IHZzBDTm (Replace your creds when prompted)Default region name [None]: us-east-1Default output format [None]: jsonTest if AWS CLI is working after configuring the above aws ec2 describe-vpcsStep-02: Install kubectl CLI IMPORTANT NOTE: Kubectl binaries for EKS please prefer to use from Amazon (Amazon EKS-vended kubectl binary) This will help us to get the exact Kubectl client version based on our EKS Cluster version. You can use the below documentation link to download the binary. Reference: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html Step-02-01: MAC - Install and configure kubectl Kubectl version we are using here is 1.16.8 (It may vary based on Cluster version you are planning use in AWS EKS) # Download the Packagemkdir kubectlbinarycd kubectlbinarycurl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl# Provide execute permissionschmod &#43;x ./kubectl# Set the Path by copying to user Home Directorymkdir -p $HOME/bin &amp;&amp; cp ./kubectl $HOME/bin/kubectl &amp;&amp; export PATH=$PATH:$HOME/binecho &#39;export PATH=$PATH:$HOME/bin&#39; &gt;&gt; ~/.bash_profile# Verify the kubectl versionkubectl version --short --clientOutput: Client Version: v1.16.8-eks-e16311Step-02-02: Windows 10 - Install and configure kubectl Install kubectl on Windows 10 mkdir kubectlbinarycd kubectlbinarycurl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exeUpdate the system Path environment variable C:\Users\KALYAN\Documents\kubectlbinaryVerify the kubectl client version kubectl version --short --clientkubectl version --clientStep-03: Install eksctl CLI Step-03-01: eksctl on Mac # Install Homebrew on MacOs/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)&#34;# Install the Weaveworks Homebrew tap.brew tap weaveworks/tap# Install the Weaveworks Homebrew tap.brew install weaveworks/tap/eksctl# Verify eksctl versioneksctl versionStep-03-02: eksctl on windows or linux For windows and linux OS, you can refer below documentation link. Reference: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl References: https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html Create EKS Cluster &amp; Node Groups Step-00: Introduction Understand about EKS Core Objects Control Plane Worker Nodes &amp; Node Groups Fargate Profiles VPC Create EKS Cluster Associate EKS Cluster to IAM OIDC Provider Create EKS Node Groups Verify Cluster, Node Groups, EC2 Instances, IAM Policies and Node Groups Step-01: Create EKS Cluster using eksctl It will take 15 to 20 minutes to create the Cluster Control Plane # Create Clustereksctl create cluster --name=eksdemo1 \--region=us-east-1 \--zones=us-east-1a,us-east-1b \--without-nodegroup # Get List of clusterseksctl get cluster Step-02: Create &amp; Associate IAM OIDC Provider for our EKS Cluster To enable and use AWS IAM roles for Kubernetes service accounts on our EKS cluster, we must create &amp; associate OIDC identity provider. To do so using eksctl we can use the below command. Use latest eksctl version (as on today the latest version is 0.21.0) # Templateeksctl utils associate-iam-oidc-provider \--region region-code \--cluster &lt;cluter-name&gt; \--approve# Replace with region &amp; cluster nameeksctl utils associate-iam-oidc-provider \--region us-east-1 \--cluster eksdemo1 \--approveStep-03: Create EC2 Keypair Create a new EC2 Keypair with name as kube-demo This keypair we will use it when creating the EKS NodeGroup. This will help us to login to the EKS Worker Nodes using Terminal. Step-04: Create Node Group with additional Add-Ons in Public Subnets These add-ons will create the respective IAM policies for us automatically within our Node Group role. # Create Public Node Group eksctl create nodegroup --cluster=eksdemo1 \--region=us-east-1 \--name=eksdemo1-ng-public1 \--node-type=t3.medium \--nodes=2 \--nodes-min=2 \--nodes-max=4 \--node-volume-size=20 \--ssh-access \--ssh-public-key=kube-demo \--managed \--asg-access \--external-dns-access \--full-ecr-access \--appmesh-access \--alb-ingress-access Step-05: Verify Cluster &amp; Nodes Verify NodeGroup subnets to confirm EC2 Instances are in Public Subnet Verify the node group subnet to ensure it created in public subnets Go to Services -&gt; EKS -&gt; eksdemo -&gt; eksdemo1-ng1-public Click on Associated subnet in Details tab Click on Route Table Tab. We should see that internet route via Internet Gateway (0.0.0.0/0 -&gt; igw-xxxxxxxx) Verify Cluster, NodeGroup in EKS Management Console Go to Services -&gt; Elastic Kubernetes Service -&gt; eksdemo1 List Worker Nodes # List EKS clusterseksctl get cluster# List NodeGroups in a clustereksctl get nodegroup --cluster=&lt;clusterName&gt;# List Nodes in current kubernetes clusterkubectl get nodes -o wide# Our kubectl context should be automatically changed to new clusterkubectl config view --minifyVerify Worker Node IAM Role and list of Policies Go to Services -&gt; EC2 -&gt; Worker Nodes Click on IAM Role associated to EC2 Worker Nodes Verify Security Group Associated to Worker Nodes Go to Services -&gt; EC2 -&gt; Worker Nodes Click on Security Group associated to EC2 Instance which contains remote in the name. Verify CloudFormation Stacks Verify Control Plane Stack &amp; Events Verify NodeGroup Stack &amp; Events Login to Worker Node using Keypai kube-demo Login to worker node # For MAC or Linux or Windows10ssh -i kube-demo.pem ec2-user@&lt;Public-IP-of-Worker-Node&gt;# For Windows 7Use puttyStep-06: Update Worker Nodes Security Group to allow all traffic We need to allow All Traffic on worker node security group Additional References https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html EKS Cluster Pricing Steo-01: Very Important EKS Pricing Note EKS is not free (Unlike other AWS Services) In short, no free-tier for EKS. EKS Cluster Pricing - We pay $0.10 per hour for each Amazon EKS cluster- Per Day: $2.4- For 30 days: $72EKS Worker Nodes Pricing - EC2 - You pay for AWS resources (e.g. EC2 instances or EBS volumes) - T3 Medium Server in N.Virginia- $0.0416 per Hour- Per Day: $0.9984 - Approximately $1- Per Month: $30 per 1 t3.medium server- Reference: https://aws.amazon.com/ec2/pricing/on-demand/- In short, if we run 1 EKS Cluster and 1 t3.medium worker node **continuously** for 1 month, our bill is going to be around $102 to $110- If we take 5 days to complete this course, and if we run 1 EKS Cluster and 2 t3.medium Worker nodes continuosly for 5 days it will cost us approximately around $25. EKS Fargate Profile - AWS Fargate pricing is calculated based on the **vCPU and memory** resources used from the time you start to download your container image until the EKS Pod terminates.- **Reference:** https://aws.amazon.com/fargate/pricing/ - Amazon EKS support for AWS Fargate is available in us-east-1, us-east-2, eu-west-1, and ap-northeast-1.Important Notes Important Note-1: If you are using your personal AWS Account, then ensure you delete and recreate cluster and worker nodes as and when needed. Important Note-2: We cant stop our EC2 Instances which are in Kubernetes cluster unlike regular EC2 Instances. So we need to delete the worker nodes (Node Group) if we are not using it during our learning process. Delete EKS Cluster &amp; Node Groups Step-01: Delete Node Group We can delete a nodegroup separately using below eksctl delete nodegroup # List EKS Clusterseksctl get clusters# Capture Node Group nameeksctl get nodegroup --cluster=&lt;clusterName&gt;eksctl get nodegroup --cluster=eksdemo1# Delete Node Groupeksctl delete nodegroup --cluster=&lt;clusterName&gt; --name=&lt;nodegroupName&gt;eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1Step-02: Delete Cluster We can delete cluster using eksctl delete cluster # Delete Clustereksctl delete cluster &lt;clusterName&gt;eksctl delete cluster eksdemo1Important Notes Note-1: Rollback any Security Group Changes When we create a EKS cluster using eksctl it creates the worker node security group with only port 22 access. When we progress through the course, we will be creating many NodePort Services to access and test our applications via browser. During this process, we need to add an additional rule to this automatically created security group, allowing access to our applications we have deployed. So the point we need to understand here is when we are deleting the cluster using eksctl, its core components should be in same state which means roll back the change we have done to security group before deleting the cluster. In this way, cluster will get deleted without any issues, else we might have issues and we need to refer cloudformation events and manually delete few things. In short, we need to go to many places for deletions. Note-2: Rollback any EC2 Worker Node Instance Role - Policy changes When we are doing EBS Storage Section with EBS CSI Driver we will add a custom policy to worker node IAM role. When you are deleting the cluster, first roll back that change and delete it. This way we don’t face any issues during cluster deletion.">
+    <meta itemprop="wordCount" content="1589">
     <title>EKS Installation :: Amazon Managed Kubernetes</title>
-    <link href="../../css/fontawesome-all.min.css?1734776262" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/fontawesome-all.min.css?1734776262" rel="stylesheet"></noscript>
-    <link href="../../css/auto-complete.css?1734776262" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/auto-complete.css?1734776262" rel="stylesheet"></noscript>
-    <link href="../../css/perfect-scrollbar.min.css?1734776262" rel="stylesheet">
-    <link href="../../css/theme.css?1734776262" rel="stylesheet">
-    <link href="../../css/format-html.css?1734776262" rel="stylesheet" id="R-format-style">
+    <link href="../../css/fontawesome-all.min.css?1734778114" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/fontawesome-all.min.css?1734778114" rel="stylesheet"></noscript>
+    <link href="../../css/auto-complete.css?1734778114" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/auto-complete.css?1734778114" rel="stylesheet"></noscript>
+    <link href="../../css/perfect-scrollbar.min.css?1734778114" rel="stylesheet">
+    <link href="../../css/theme.min.css?1734778114" rel="stylesheet">
+    <link href="../../css/format-html.min.css?1734778114" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313\/eks';
-      window.relearn.min = ``;
+      window.relearn.absBaseUri='https:\/\/khushiramsingh680.github.io\/eks';
+      window.relearn.min = `.min`;
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       // variant stuff
@@ -90,6 +90,73 @@
   <ul>
     <li><a href="#list-of-topics">List of Topics</a></li>
   </ul>
+
+  <ul>
+    <li><a href="#step-00-introduction">Step-00: Introduction</a></li>
+    <li><a href="#step-01-install-aws-cli">Step-01: Install AWS CLI</a>
+      <ul>
+        <li><a href="#step-01-01-mac---install-and-configure-aws-cli">Step-01-01: MAC - Install and configure AWS CLI</a></li>
+        <li><a href="#step-01-02-windows-10---install-and-configure-aws-cli">Step-01-02: Windows 10 - Install and configure AWS CLI</a></li>
+        <li><a href="#step-01-03-configure-aws-command-line-using-security-credentials">Step-01-03: Configure AWS Command Line using Security Credentials</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-02-install-kubectl-cli">Step-02: Install kubectl CLI</a>
+      <ul>
+        <li><a href="#step-02-01-mac---install-and-configure-kubectl">Step-02-01: MAC - Install and configure kubectl</a></li>
+        <li><a href="#step-02-02-windows-10---install-and-configure-kubectl">Step-02-02: Windows 10 - Install and configure kubectl</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-03-install-eksctl-cli">Step-03: Install eksctl CLI</a>
+      <ul>
+        <li><a href="#step-03-01-eksctl-on-mac">Step-03-01: eksctl on Mac</a></li>
+        <li><a href="#step-03-02-eksctl-on-windows-or-linux">Step-03-02: eksctl on windows or linux</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References:</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#step-00-introduction-1">Step-00: Introduction</a></li>
+    <li><a href="#step-01-create-eks-cluster-using-eksctl">Step-01: Create EKS Cluster using eksctl</a></li>
+    <li><a href="#step-02-create--associate-iam-oidc-provider-for-our-eks-cluster">Step-02: Create &amp; Associate IAM OIDC Provider for our EKS Cluster</a></li>
+    <li><a href="#step-03-create-ec2-keypair">Step-03: Create EC2 Keypair</a></li>
+    <li><a href="#step-04-create-node-group-with-additional-add-ons-in-public-subnets">Step-04: Create Node Group with additional Add-Ons in Public Subnets</a></li>
+    <li><a href="#step-05-verify-cluster--nodes">Step-05: Verify Cluster &amp; Nodes</a>
+      <ul>
+        <li><a href="#verify-nodegroup-subnets-to-confirm-ec2-instances-are-in-public-subnet">Verify NodeGroup subnets to confirm EC2 Instances are in Public Subnet</a></li>
+        <li><a href="#verify-cluster-nodegroup-in-eks-management-console">Verify Cluster, NodeGroup in EKS Management Console</a></li>
+        <li><a href="#list-worker-nodes">List Worker Nodes</a></li>
+        <li><a href="#verify-worker-node-iam-role-and-list-of-policies">Verify Worker Node IAM Role and list of Policies</a></li>
+        <li><a href="#verify-security-group-associated-to-worker-nodes">Verify Security Group Associated to Worker Nodes</a></li>
+        <li><a href="#verify-cloudformation-stacks">Verify CloudFormation Stacks</a></li>
+        <li><a href="#login-to-worker-node-using-keypai-kube-demo">Login to Worker Node using Keypai kube-demo</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-06-update-worker-nodes-security-group-to-allow-all-traffic">Step-06: Update Worker Nodes Security Group to allow all traffic</a></li>
+    <li><a href="#additional-references">Additional References</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#steo-01-very-important-eks-pricing-note">Steo-01: Very Important EKS Pricing Note</a>
+      <ul>
+        <li><a href="#eks-cluster-pricing-1">EKS Cluster Pricing</a></li>
+        <li><a href="#eks-worker-nodes-pricing---ec2">EKS Worker Nodes Pricing - EC2</a></li>
+        <li><a href="#eks-fargate-profile">EKS Fargate Profile</a></li>
+        <li><a href="#important-notes">Important Notes</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#step-01-delete-node-group">Step-01: Delete Node Group</a></li>
+    <li><a href="#step-02-delete-cluster">Step-02: Delete Cluster</a></li>
+    <li><a href="#important-notes-1">Important Notes</a>
+      <ul>
+        <li><a href="#note-1-rollback-any-security-group-changes">Note-1: Rollback any Security Group Changes</a></li>
+        <li><a href="#note-2-rollback-any-ec2-worker-node-instance-role---policy-changes">Note-2: Rollback any EC2 Worker Node Instance Role - Policy changes</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
                 </div>
               </div>
@@ -145,6 +212,332 @@
 </li>
 <li>Delete EKS Clusters</li>
 </ul>
+<h1 id="install-aws-kubectl--eksctl-clis">Install AWS, kubectl &amp; eksctl CLI&rsquo;s</h1>
+<h2 id="step-00-introduction">Step-00: Introduction</h2>
+<ul>
+<li>Install AWS CLI</li>
+<li>Install kubectl CLI</li>
+<li>Install eksctl CLI</li>
+</ul>
+<h2 id="step-01-install-aws-cli">Step-01: Install AWS CLI</h2>
+<ul>
+<li>Reference-1: <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html" rel="external" target="_blank">https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html</a></li>
+<li>Reference-2: <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html" rel="external" target="_blank">https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html</a></li>
+</ul>
+<h3 id="step-01-01-mac---install-and-configure-aws-cli">Step-01-01: MAC - Install and configure AWS CLI</h3>
+<ul>
+<li>Download the binary and install via command line using below two commands.</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code># Download Binary
+curl &#34;https://awscli.amazonaws.com/AWSCLIV2.pkg&#34; -o &#34;AWSCLIV2.pkg&#34;
+
+# Install the binary
+sudo installer -pkg ./AWSCLIV2.pkg -target /</code></pre></div>
+<ul>
+<li>Verify the installation</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code>aws --version
+aws-cli/2.0.7 Python/3.7.4 Darwin/19.4.0 botocore/2.0.0dev11
+
+which aws</code></pre></div>
+<ul>
+<li>Reference: <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html" rel="external" target="_blank">https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html</a></li>
+</ul>
+<h3 id="step-01-02-windows-10---install-and-configure-aws-cli">Step-01-02: Windows 10 - Install and configure AWS CLI</h3>
+<ul>
+<li>The AWS CLI version 2 is supported on Windows XP or later.</li>
+<li>The AWS CLI version 2 supports only 64-bit versions of Windows.</li>
+<li>Download Binary: <a href="https://awscli.amazonaws.com/AWSCLIV2.msi" rel="external" target="_blank">https://awscli.amazonaws.com/AWSCLIV2.msi</a></li>
+<li>Install the downloaded binary (standard windows install)</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code>aws --version
+aws-cli/2.0.8 Python/3.7.5 Windows/10 botocore/2.0.0dev12</code></pre></div>
+<ul>
+<li>Reference: <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html" rel="external" target="_blank">https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html</a></li>
+</ul>
+<h3 id="step-01-03-configure-aws-command-line-using-security-credentials">Step-01-03: Configure AWS Command Line using Security Credentials</h3>
+<ul>
+<li>Go to AWS Management Console &ndash;&gt; Services &ndash;&gt; IAM</li>
+<li>Select the IAM User: kalyan</li>
+<li><strong>Important Note:</strong> Use only IAM user to generate <strong>Security Credentials</strong>. Never ever use Root User. (Highly not recommended)</li>
+<li>Click on <strong>Security credentials</strong> tab</li>
+<li>Click on <strong>Create access key</strong></li>
+<li>Copy Access ID and Secret access key</li>
+<li>Go to command line and provide the required details</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code>aws configure
+AWS Access Key ID [None]: ABCDEFGHIAZBERTUCNGG  (Replace your creds when prompted)
+AWS Secret Access Key [None]: uMe7fumK1IdDB094q2sGFhM5Bqt3HQRw3IHZzBDTm  (Replace your creds when prompted)
+Default region name [None]: us-east-1
+Default output format [None]: json</code></pre></div>
+<ul>
+<li>Test if AWS CLI is working after configuring the above</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code>aws ec2 describe-vpcs</code></pre></div>
+<h2 id="step-02-install-kubectl-cli">Step-02: Install kubectl CLI</h2>
+<ul>
+<li><strong>IMPORTANT NOTE:</strong> Kubectl binaries for EKS please prefer to use from Amazon (<strong>Amazon EKS-vended kubectl binary</strong>)</li>
+<li>This will help us to get the exact Kubectl client version based on our EKS Cluster version. You can use the below documentation link to download the binary.</li>
+<li>Reference: <a href="https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html" rel="external" target="_blank">https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html</a></li>
+</ul>
+<h3 id="step-02-01-mac---install-and-configure-kubectl">Step-02-01: MAC - Install and configure kubectl</h3>
+<ul>
+<li>Kubectl version we are using here is 1.16.8 (It may vary based on Cluster version you are planning use in AWS EKS)</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code># Download the Package
+mkdir kubectlbinary
+cd kubectlbinary
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl
+
+# Provide execute permissions
+chmod +x ./kubectl
+
+# Set the Path by copying to user Home Directory
+mkdir -p $HOME/bin &amp;&amp; cp ./kubectl $HOME/bin/kubectl &amp;&amp; export PATH=$PATH:$HOME/bin
+echo &#39;export PATH=$PATH:$HOME/bin&#39; &gt;&gt; ~/.bash_profile
+
+# Verify the kubectl version
+kubectl version --short --client
+Output: Client Version: v1.16.8-eks-e16311</code></pre></div>
+<h3 id="step-02-02-windows-10---install-and-configure-kubectl">Step-02-02: Windows 10 - Install and configure kubectl</h3>
+<ul>
+<li>Install kubectl on Windows 10</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code>mkdir kubectlbinary
+cd kubectlbinary
+curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exe</code></pre></div>
+<ul>
+<li>Update the system <strong>Path</strong> environment variable</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code>C:\Users\KALYAN\Documents\kubectlbinary</code></pre></div>
+<ul>
+<li>Verify the kubectl client version</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code>kubectl version --short --client
+kubectl version --client</code></pre></div>
+<h2 id="step-03-install-eksctl-cli">Step-03: Install eksctl CLI</h2>
+<h3 id="step-03-01-eksctl-on-mac">Step-03-01: eksctl on Mac</h3>
+<div class="highlight wrap-code"><pre tabindex="0"><code># Install Homebrew on MacOs
+/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)&#34;
+
+# Install the Weaveworks Homebrew tap.
+brew tap weaveworks/tap
+
+# Install the Weaveworks Homebrew tap.
+brew install weaveworks/tap/eksctl
+
+# Verify eksctl version
+eksctl version</code></pre></div>
+<h3 id="step-03-02-eksctl-on-windows-or-linux">Step-03-02: eksctl on windows or linux</h3>
+<ul>
+<li>For windows and linux OS, you can refer below documentation link.</li>
+<li><strong>Reference:</strong> <a href="https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl" rel="external" target="_blank">https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl</a></li>
+</ul>
+<h2 id="references">References:</h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html" rel="external" target="_blank">https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html</a></li>
+</ul>
+<h1 id="create-eks-cluster--node-groups">Create EKS Cluster &amp; Node Groups</h1>
+<h2 id="step-00-introduction-1">Step-00: Introduction</h2>
+<ul>
+<li>Understand about EKS Core Objects
+<ul>
+<li>Control Plane</li>
+<li>Worker Nodes &amp; Node Groups</li>
+<li>Fargate Profiles</li>
+<li>VPC</li>
+</ul>
+</li>
+<li>Create EKS Cluster</li>
+<li>Associate EKS Cluster to IAM OIDC Provider</li>
+<li>Create EKS Node Groups</li>
+<li>Verify Cluster, Node Groups, EC2 Instances, IAM Policies and Node Groups</li>
+</ul>
+<h2 id="step-01-create-eks-cluster-using-eksctl">Step-01: Create EKS Cluster using eksctl</h2>
+<ul>
+<li>It will take 15 to 20 minutes to create the Cluster Control Plane</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code># Create Cluster
+eksctl create cluster --name=eksdemo1 \
+                      --region=us-east-1 \
+                      --zones=us-east-1a,us-east-1b \
+                      --without-nodegroup 
+
+# Get List of clusters
+eksctl get cluster                  </code></pre></div>
+<h2 id="step-02-create--associate-iam-oidc-provider-for-our-eks-cluster">Step-02: Create &amp; Associate IAM OIDC Provider for our EKS Cluster</h2>
+<ul>
+<li>To enable and use AWS IAM roles for Kubernetes service accounts on our EKS cluster, we must create &amp;  associate OIDC identity provider.</li>
+<li>To do so using <code>eksctl</code> we can use the  below command.</li>
+<li>Use latest eksctl version (as on today the latest version is <code>0.21.0</code>)</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code># Template
+eksctl utils associate-iam-oidc-provider \
+    --region region-code \
+    --cluster &lt;cluter-name&gt; \
+    --approve
+
+# Replace with region &amp; cluster name
+eksctl utils associate-iam-oidc-provider \
+    --region us-east-1 \
+    --cluster eksdemo1 \
+    --approve</code></pre></div>
+<h2 id="step-03-create-ec2-keypair">Step-03: Create EC2 Keypair</h2>
+<ul>
+<li>Create a new EC2 Keypair with name as <code>kube-demo</code></li>
+<li>This keypair we will use it when creating the EKS NodeGroup.</li>
+<li>This will help us to login to the EKS Worker Nodes using Terminal.</li>
+</ul>
+<h2 id="step-04-create-node-group-with-additional-add-ons-in-public-subnets">Step-04: Create Node Group with additional Add-Ons in Public Subnets</h2>
+<ul>
+<li>These add-ons will create the respective IAM policies for us automatically within our Node Group role.</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code># Create Public Node Group   
+eksctl create nodegroup --cluster=eksdemo1 \
+                       --region=us-east-1 \
+                       --name=eksdemo1-ng-public1 \
+                       --node-type=t3.medium \
+                       --nodes=2 \
+                       --nodes-min=2 \
+                       --nodes-max=4 \
+                       --node-volume-size=20 \
+                       --ssh-access \
+                       --ssh-public-key=kube-demo \
+                       --managed \
+                       --asg-access \
+                       --external-dns-access \
+                       --full-ecr-access \
+                       --appmesh-access \
+                       --alb-ingress-access </code></pre></div>
+<h2 id="step-05-verify-cluster--nodes">Step-05: Verify Cluster &amp; Nodes</h2>
+<h3 id="verify-nodegroup-subnets-to-confirm-ec2-instances-are-in-public-subnet">Verify NodeGroup subnets to confirm EC2 Instances are in Public Subnet</h3>
+<ul>
+<li>Verify the node group subnet to ensure it created in public subnets
+<ul>
+<li>Go to Services -&gt; EKS -&gt; eksdemo -&gt; eksdemo1-ng1-public</li>
+<li>Click on Associated subnet in <strong>Details</strong> tab</li>
+<li>Click on <strong>Route Table</strong> Tab.</li>
+<li>We should see that internet route via Internet Gateway (0.0.0.0/0 -&gt; igw-xxxxxxxx)</li>
+</ul>
+</li>
+</ul>
+<h3 id="verify-cluster-nodegroup-in-eks-management-console">Verify Cluster, NodeGroup in EKS Management Console</h3>
+<ul>
+<li>Go to Services -&gt; Elastic Kubernetes Service -&gt; eksdemo1</li>
+</ul>
+<h3 id="list-worker-nodes">List Worker Nodes</h3>
+<div class="highlight wrap-code"><pre tabindex="0"><code># List EKS clusters
+eksctl get cluster
+
+# List NodeGroups in a cluster
+eksctl get nodegroup --cluster=&lt;clusterName&gt;
+
+# List Nodes in current kubernetes cluster
+kubectl get nodes -o wide
+
+# Our kubectl context should be automatically changed to new cluster
+kubectl config view --minify</code></pre></div>
+<h3 id="verify-worker-node-iam-role-and-list-of-policies">Verify Worker Node IAM Role and list of Policies</h3>
+<ul>
+<li>Go to Services -&gt; EC2 -&gt; Worker Nodes</li>
+<li>Click on <strong>IAM Role associated to EC2 Worker Nodes</strong></li>
+</ul>
+<h3 id="verify-security-group-associated-to-worker-nodes">Verify Security Group Associated to Worker Nodes</h3>
+<ul>
+<li>Go to Services -&gt; EC2 -&gt; Worker Nodes</li>
+<li>Click on <strong>Security Group</strong> associated to EC2 Instance which contains <code>remote</code> in the name.</li>
+</ul>
+<h3 id="verify-cloudformation-stacks">Verify CloudFormation Stacks</h3>
+<ul>
+<li>Verify Control Plane Stack &amp; Events</li>
+<li>Verify NodeGroup Stack &amp; Events</li>
+</ul>
+<h3 id="login-to-worker-node-using-keypai-kube-demo">Login to Worker Node using Keypai kube-demo</h3>
+<ul>
+<li>Login to worker node</li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code># For MAC or Linux or Windows10
+ssh -i kube-demo.pem ec2-user@&lt;Public-IP-of-Worker-Node&gt;
+
+# For Windows 7
+Use putty</code></pre></div>
+<h2 id="step-06-update-worker-nodes-security-group-to-allow-all-traffic">Step-06: Update Worker Nodes Security Group to allow all traffic</h2>
+<ul>
+<li>We need to allow <code>All Traffic</code> on worker node security group</li>
+</ul>
+<h2 id="additional-references">Additional References</h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html" rel="external" target="_blank">https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html</a></li>
+<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html" rel="external" target="_blank">https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html</a></li>
+</ul>
+<h1 id="eks-cluster-pricing">EKS Cluster Pricing</h1>
+<h2 id="steo-01-very-important-eks-pricing-note">Steo-01: Very Important EKS Pricing Note</h2>
+<ul>
+<li>EKS is not free (Unlike other AWS Services)</li>
+<li>In short, no free-tier for EKS.</li>
+</ul>
+<h3 id="eks-cluster-pricing-1">EKS Cluster Pricing</h3>
+<pre><code>- We pay $0.10 per hour for each Amazon EKS cluster
+- Per Day: $2.4
+- For 30 days: $72
+</code></pre>
+<h3 id="eks-worker-nodes-pricing---ec2">EKS Worker Nodes Pricing - EC2</h3>
+<pre><code>- You pay for AWS resources (e.g. EC2 instances or EBS volumes) 
+- T3 Medium Server in N.Virginia
+    - $0.0416 per Hour
+    - Per Day: $0.9984 - Approximately $1
+    - Per Month: $30 per 1 t3.medium server
+- Reference: https://aws.amazon.com/ec2/pricing/on-demand/
+- In short, if we run 1 EKS Cluster and 1 t3.medium worker node **continuously** for 1 month, our bill is going to be around $102 to $110
+- If we take 5 days to complete this course, and if we run 1 EKS Cluster and 2 t3.medium Worker nodes continuosly for 5 days it will cost us approximately around $25. 
+</code></pre>
+<h3 id="eks-fargate-profile">EKS Fargate Profile</h3>
+<pre><code>- AWS Fargate pricing is calculated based on the **vCPU and memory** resources used from the time you start to download your container image until the EKS Pod terminates.
+- **Reference:** https://aws.amazon.com/fargate/pricing/    
+- Amazon EKS support for AWS Fargate is available in us-east-1, us-east-2, eu-west-1, and ap-northeast-1.
+</code></pre>
+<h3 id="important-notes">Important Notes</h3>
+<ul>
+<li><strong>Important Note-1:</strong> If you are using your personal AWS Account, then ensure you delete and recreate cluster and worker nodes as and when needed.</li>
+<li><strong>Important Note-2:</strong> We cant stop our EC2 Instances which are in Kubernetes cluster unlike regular EC2 Instances. So we need to delete the worker nodes (Node Group) if we are not using it during our learning process.</li>
+</ul>
+<h1 id="delete-eks-cluster--node-groups">Delete EKS Cluster &amp; Node Groups</h1>
+<h2 id="step-01-delete-node-group">Step-01: Delete Node Group</h2>
+<ul>
+<li>We can delete a nodegroup separately using below <code>eksctl delete nodegroup</code></li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code># List EKS Clusters
+eksctl get clusters
+
+# Capture Node Group name
+eksctl get nodegroup --cluster=&lt;clusterName&gt;
+eksctl get nodegroup --cluster=eksdemo1
+
+# Delete Node Group
+eksctl delete nodegroup --cluster=&lt;clusterName&gt; --name=&lt;nodegroupName&gt;
+eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1</code></pre></div>
+<h2 id="step-02-delete-cluster">Step-02: Delete Cluster</h2>
+<ul>
+<li>We can delete cluster using <code>eksctl delete cluster</code></li>
+</ul>
+<div class="highlight wrap-code"><pre tabindex="0"><code># Delete Cluster
+eksctl delete cluster &lt;clusterName&gt;
+eksctl delete cluster eksdemo1</code></pre></div>
+<h2 id="important-notes-1">Important Notes</h2>
+<h3 id="note-1-rollback-any-security-group-changes">Note-1: Rollback any Security Group Changes</h3>
+<ul>
+<li>When we create a EKS cluster using <code>eksctl</code> it creates the worker node security group with only port 22 access.</li>
+<li>When we progress through the course, we will be creating many <strong>NodePort Services</strong> to access and test our applications via browser.</li>
+<li>During this process, we need to add an additional rule to this automatically created security group, allowing access to our applications we have deployed.</li>
+<li>So the point we need to understand here is when we are deleting the cluster using <code>eksctl</code>, its core components should be in same state which means roll back the change we have done to security group before deleting the cluster.</li>
+<li>In this way, cluster will get deleted without any issues, else we might have issues and we need to refer cloudformation events and manually delete few things. In short, we need to go to many places for deletions.</li>
+</ul>
+<h3 id="note-2-rollback-any-ec2-worker-node-instance-role---policy-changes">Note-2: Rollback any EC2 Worker Node Instance Role - Policy changes</h3>
+<ul>
+<li>When we are doing <code>EBS Storage Section with EBS CSI Driver</code> we will add a custom policy to worker node IAM role.</li>
+<li>When you are deleting the cluster, first roll back that change and delete it.</li>
+<li>This way we don&rsquo;t face any issues during cluster deletion.</li>
+</ul>
 
   <footer class="footline">
   </footer>
@@ -161,7 +554,7 @@ Amazon Managed Kubernetes
           </a>
         </div>
         <script>
-          window.index_js_url="../../searchindex.en.js?1734776262";
+          window.index_js_url="../../searchindex.en.js?1734778114";
         </script>
         <search><form action="../../search/index.html" method="get">
           <div class="searchbox default-animation">
@@ -174,12 +567,12 @@ Amazon Managed Kubernetes
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../js/auto-complete.js?1734776262" defer></script>
-        <script src="../../js/lunr/lunr.min.js?1734776262" defer></script>
-        <script src="../../js/lunr/lunr.stemmer.support.min.js?1734776262" defer></script>
-        <script src="../../js/lunr/lunr.multi.min.js?1734776262" defer></script>
-        <script src="../../js/lunr/lunr.en.min.js?1734776262" defer></script>
-        <script src="../../js/search.js?1734776262" defer></script>
+        <script src="../../js/auto-complete.js?1734778114" defer></script>
+        <script src="../../js/lunr/lunr.min.js?1734778114" defer></script>
+        <script src="../../js/lunr/lunr.stemmer.support.min.js?1734778114" defer></script>
+        <script src="../../js/lunr/lunr.multi.min.js?1734778114" defer></script>
+        <script src="../../js/lunr/lunr.en.min.js?1734778114" defer></script>
+        <script src="../../js/search.js?1734778114" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -245,8 +638,8 @@ Amazon Managed Kubernetes
         </div>
       </div>
     </aside>
-    <script src="../../js/clipboard.min.js?1734776262" defer></script>
-    <script src="../../js/perfect-scrollbar.min.js?1734776262" defer></script>
-    <script src="../../js/theme.js?1734776262" defer></script>
+    <script src="../../js/clipboard.min.js?1734778114" defer></script>
+    <script src="../../js/perfect-scrollbar.min.js?1734778114" defer></script>
+    <script src="../../js/theme.js?1734778114" defer></script>
   </body>
 </html>
