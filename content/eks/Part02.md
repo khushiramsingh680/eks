@@ -2,7 +2,8 @@
 title = "Part 02"
 
 +++
-## eksctl: CLI for Amazon EKS
+## ```eksctl``` 
+### CLI for Amazon EKS
 The official CLI for Amazon EKS.
 `eksctl` is a command-line tool designed to simplify the management of Kubernetes clusters on Amazon Elastic Kubernetes Service (EKS). It provides an easy and efficient way to manage EKS clusters, worker nodes, and addons.
 
@@ -12,6 +13,21 @@ The official CLI for Amazon EKS.
 - Supports YAML configuration for declarative cluster management.
 - Enables cluster logging and addon upgrades.
 - Provides multi-region support for managing multiple clusters.
+The features that are currently implemented are:
+
+   -  Create, get, list and delete clusters
+   - Create, drain and delete nodegroups
+   -  Scale a nodegroup
+   -  Update a cluster
+   -  Use custom AMIs
+   -  Configure VPC Networking
+   -  Configure access to API endpoints
+   -  Support for GPU nodegroups
+   -  Spot instances and mixed instances
+   -  IAM Management and Add-on Policies
+    - List cluster Cloudformation stacks
+    - Install coredns
+    - Write kubeconfig file for a cluster
 
 ## Installation
 
@@ -70,10 +86,10 @@ EOF
 
 ### Basic cluster creation
 
-To create a basic cluster, but with a different name, run:
-
+#### To create a basic cluster, but with a different name, run:
+```bash
 eksctl create cluster --name=cluster-1 --nodes=4
-
+```
 ### Cluster credentials
 
 #### To write cluster credentials to a file other than default, run:
@@ -142,3 +158,6 @@ eksctl create cluster --node-volume-size=50 --node-volume-type=io1
 
 
 The default volume size is 80G.
+
+- Yaml fils are stored at below location:
+ [Yaml Files](https://github.com/eksctl-io/eksctl/tree/main/examples)
