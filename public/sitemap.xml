@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://khushiramsingh680.github.io/eks/eks/</loc>
+    <loc>http://localhost:1313/eks/eks/</loc>
   </url><url>
-    <loc>https://khushiramsingh680.github.io/eks/</loc>
+    <loc>http://localhost:1313/eks/</loc>
   </url><url>
-    <loc>https://khushiramsingh680.github.io/eks/categories/</loc>
+    <loc>http://localhost:1313/eks/categories/</loc>
   </url><url>
-    <loc>https://khushiramsingh680.github.io/eks/eks/k8s/</loc>
+    <loc>http://localhost:1313/eks/eks/k8s/</loc>
   </url><url>
-    <loc>https://khushiramsingh680.github.io/eks/eks/part01/</loc>
+    <loc>http://localhost:1313/eks/eks/part01/</loc>
   </url><url>
-    <loc>https://khushiramsingh680.github.io/eks/tags/</loc>
+    <loc>http://localhost:1313/eks/tags/</loc>
   </url>
 </urlset>
