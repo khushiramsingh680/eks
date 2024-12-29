@@ -23,16 +23,16 @@ curl --silent --location "https://github.com/weaveworks/eksctl/releases/download
 sudo mv /tmp/eksctl /usr/local/bin
 ```
 - **Create a Custom VPC for EKS Cluster**
-  ```bash
-  eksctl create vpc \
-  --name my-cluster-vpc \
-  --cidr 10.0.0.0/16 \
-  --subnets private=10.0.1.0/24,public=10.0.2.0/24 \
-  --region us-west-2
-  ```
+ ```bash
+    eksctl create vpc \
+    --name my-cluster-vpc \
+    --cidr 10.0.0.0/16 \
+    --subnets private=10.0.1.0/24,public=10.0.2.0/24 \
+    --region us-west-2
+ ```
  - **Create the EKS Cluster with Custom VPC**
  ```bash
- eksctl create cluster \
+  eksctl create cluster \
   --name my-cluster \
   --region us-west-2 \
   --vpc-private-subnets=10.0.1.0/24 \
@@ -46,12 +46,13 @@ sudo mv /tmp/eksctl /usr/local/bin
   --managed
  ```
 - `` Update kubeconfig``
-  ```bash
-  aws eks --region us-west-2 update-kubeconfig --name my-cluster
+
+```bash
+ aws eks --region us-west-2 update-kubeconfig --name my-cluster
 ```
 - **Add Additional Node Groups (Optional)**
 ```bash
-eksctl create nodegroup \
+ eksctl create nodegroup \
   --cluster my-cluster \
   --name additional-workers \
   --node-type t2.small \
