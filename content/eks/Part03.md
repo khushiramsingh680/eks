@@ -62,8 +62,8 @@ sudo mv /tmp/eksctl /usr/local/bin
   --region us-west-2
 ```
 - **Clean Up**
-  ```bash
-  eksctl delete cluster --name my-cluster --region us-west-2
+ ```bash
+ eksctl delete cluster --name my-cluster --region us-west-2
   ```
      
 
