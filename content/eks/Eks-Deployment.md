@@ -4,7 +4,6 @@ type = "chapter"
 weight = 2
 +++
 
-
 ## EKS - Create Cluster
 
 ## List of Topics 
@@ -164,14 +163,16 @@ eksctl version
 
 ## Step-01: Create EKS Cluster using eksctl
 - It will take 15 to 20 minutes to create the Cluster Control Plane 
-```
+
 # Create Cluster
+```bash
 eksctl create cluster --name=eksdemo1 \
                       --region=us-east-1 \
                       --zones=us-east-1a,us-east-1b \
                       --without-nodegroup 
-
+```
 # Get List of clusters
+```bash
 eksctl get cluster                  
 ```
 
@@ -393,12 +394,13 @@ eksctl delete cluster eksdemo1
 
 ## Step-03: Get the IAM role Worker Nodes using and Associate this policy to that role
 ```
-# Get Worker node IAM Role ARN
+- **Get Worker node IAM Role ARN**
+```bash
 kubectl -n kube-system describe configmap aws-auth
-
-# from output check rolearn
-rolearn: arn:aws:iam::180789647333:role/eksctl-eksdemo1-nodegroup-eksdemo-NodeInstanceRole-IJN07ZKXAWNN
 ```
+## from output check rolearn
+rolearn: arn:aws:iam::180789647333:role/eksctl-eksdemo1-nodegroup-eksdemo-NodeInstanceRole-IJN07ZKXAWNN
+
 - Go to Services -> IAM -> Roles 
 - Search for role with name **eksctl-eksdemo1-nodegroup** and open it
 - Click on **Permissions** tab
@@ -406,16 +408,18 @@ rolearn: arn:aws:iam::180789647333:role/eksctl-eksdemo1-nodegroup-eksdemo-NodeIn
 - Search for **Amazon_EBS_CSI_Driver** and click on **Attach Policy**
 
 ## Step-04: Deploy Amazon EBS CSI Driver  
-- Verify kubectl version, it should be 1.14 or later
-```
+- **Verify kubectl version, it should be 1.14 or later**
+```bash
 kubectl version --client --short
 ```
-- Deploy Amazon EBS CSI Driver
-```
-# Deploy EBS CSI Driver
-kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+- **Deploy Amazon EBS CSI Driver**
 
-# Verify ebs-csi pods running
+- **Deploy EBS CSI Driver**
+```bash
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+```
+- **Verify ebs-csi pods running**
+```bash
 kubectl get pods -n kube-system
 ```
 - **Testing the pvc**
@@ -434,7 +438,7 @@ spec:
       storage: 5Gi
 EOF
 ```
-- **Run below command
+- **Run below command**
 ```sh
 kubectl apply -f my-pvc.yaml
 ```
