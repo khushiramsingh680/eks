@@ -323,30 +323,35 @@ Use putty
 - **Important Note-1:** If you are using your personal AWS Account, then ensure you delete and recreate cluster and worker nodes as and when needed. 
 - **Important Note-2:** We cant stop our EC2 Instances which are in Kubernetes cluster unlike regular EC2 Instances. So we need to delete the worker nodes (Node Group) if we are not using it during our learning process.
  
- # Delete EKS Cluster & Node Groups
+## Delete EKS Cluster & Node Groups
 
 ## Step-01: Delete Node Group
 - We can delete a nodegroup separately using below `eksctl delete nodegroup`
 
 ## List EKS Clusters
+```bash
 eksctl get clusters
-
+```
 ## Capture Node Group name
+```bash
 eksctl get nodegroup --cluster=<clusterName>
 eksctl get nodegroup --cluster=eksdemo1
-
+```
 ## Delete Node Group
+```bash
 eksctl delete nodegroup --cluster=<clusterName> --name=<nodegroupName>
 eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1
+```
 
-
-## Step-02: Delete Cluster  
+## Step-02: Delete Cluster 
+```bash 
 - We can delete cluster using `eksctl delete cluster`
-
+```
 ## Delete Cluster
+```bash
 eksctl delete cluster <clusterName>
 eksctl delete cluster eksdemo1
-
+```
 
 ## Important Notes
 
@@ -408,13 +413,13 @@ eksctl delete cluster eksdemo1
   - Click on **Create Policy**
 
 ## Step-03: Get the IAM role Worker Nodes using and Associate this policy to that role
-```
+
 - **Get Worker node IAM Role ARN**
 ```bash
 kubectl -n kube-system describe configmap aws-auth
 ```
 ## from output check rolearn
-rolearn: arn:aws:iam::180789647333:role/eksctl-eksdemo1-nodegroup-eksdemo-NodeInstanceRole-IJN07ZKXAWNN
+``rolearn: arn:aws:iam::180789647333:role/eksctl-eksdemo1-nodegroup-eksdemo-NodeInstanceRole-IJN07ZKXAWNN``
 
 - Go to Services -> IAM -> Roles 
 - Search for role with name **eksctl-eksdemo1-nodegroup** and open it
