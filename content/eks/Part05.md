@@ -14,11 +14,12 @@ title = "Part 05"
 - [Pod Health Checks](#pod-health-checks)
 - [initContainer](#kubernetes-init-containers)
 - [Services](#kubernetes-services)
-     - NodePort
-     - LoadBalancer
-     - ExternalName
-     - External IP
-- Port and Service forwarding 
+     - [NodePort](#nodeport-service)
+     - [LoadBalancer](#loadbalancer-service)
+     - [ExternalName](#externalname-service)
+     - [External IP](#external-ip-service)
+     - [ClusterIP](#1-clusterip-service)
+- [Port and Service forwarding](#port-and-service-forwarding)
 ## Kubernetes Pod Concepts
 
 ## What is a Pod?
