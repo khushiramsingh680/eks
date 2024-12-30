@@ -81,9 +81,10 @@ nodeGroups:
     desiredCapacity: 2
 EOF
  ```
-
-- **eksctl create cluster -f cluster.yaml**
-
+- **Run the below command**
+ ```bash
+  eksctl create cluster -f cluster.yaml
+ ```
 ### Basic cluster creation
 
  - **To create a basic cluster, but with a different name, run:**
