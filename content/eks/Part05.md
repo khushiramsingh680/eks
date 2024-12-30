@@ -303,6 +303,23 @@ kubectl set env pod/mypod VAR_NAME=value
 kubectl delete pod -l app=myapp
 
 
+## LAB 01
+-  Login to a pod
+-  Login to a specific container 
+-  check logs for a container
+-  Copy files from local to pod and vice versa
+-  Check the usages of pod
+-  Check the ip of pods
+-  check where the pod is running 
+-  Describe the pods
+-  Check the pod is in pending state 
+-  Check kubernetes events 
+-  Delete a pod 
+-  Delete a pod forcefully
+-  Check the pod name from a namespace 
+-  For loop to check the name of all pod and delete them 
+-  Check the pod with labels
+
 ## Kubernetes Services
 
 ## Overview
