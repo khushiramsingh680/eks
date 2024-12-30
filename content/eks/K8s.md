@@ -1,6 +1,8 @@
-
-
-
++++
+title = "Elastic Kubernetes Service (EKS) Deployment "
+type = "chapter"
+weight = 2
++++
 
 
 ## EKS - Create Cluster
@@ -346,7 +348,7 @@ eksctl delete cluster eksdemo1
 
 
 
-# EKS Storage with EBS - Elastic Block Store
+## EKS Storage with EBS - Elastic Block Store
 
 ## Step-01: Introduction
 - Create IAM Policy for EBS
