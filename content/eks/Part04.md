@@ -3,7 +3,7 @@ title = "Part 04"
 
 +++
 
-# EKS - Create EKS Node Group in Private Subnets
+## EKS - Create EKS Node Group in Private Subnets
 
 ## Step-01: Introduction
 - We are going to create a node group in VPC Private Subnets
@@ -59,7 +59,7 @@ kubectl get nodes -o wide
 
 
 
- # AWS - Network Load Balancer - NLB
+ ## AWS - Network Load Balancer - NLB
 
 ## Step-01: Create AWS Network Load Balancer Kubernetes Manifest & Deploy
 - **04-NetworkLoadBalancer.yml**
@@ -82,13 +82,13 @@ spec:
 ```
 - **Deploy all Manifest**
 ```
-# Deploy all manifests
+## Deploy all manifests
 kubectl apply -f kube-manifests/
 
-# List Services (Verify newly created NLB Service)
+## List Services (Verify newly created NLB Service)
 kubectl get svc
 
-# Verify Pods
+## Verify Pods
 kubectl get pods
 ```
 
@@ -107,10 +107,10 @@ http://<NLB-DNS-NAME>/usermgmt/health-status
 
 ## Step-03: Clean Up 
 ```
-# Delete all Objects created
+## Delete all Objects created
 kubectl delete -f kube-manifests/
 
-# Verify current Kubernetes Objects
+## Verify current Kubernetes Objects
 kubectl get all
 ```
 

@@ -1,9 +1,3 @@
-+++
-title = "Elastic Kubernetes Service (EKS) Deployment "
-type = "chapter"
-weight = 2
-+++
-
 ## EKS - Create Cluster
 
 ## List of Topics 
