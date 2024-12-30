@@ -40,56 +40,56 @@
       <link>https://khushiramsingh680.github.io/eks/eks/part05/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part05/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;topics-to-do&#34;&gt;Topics to do&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Pod&#xA;&lt;ul&gt;&#xA;&lt;li&gt;initContainer&lt;/li&gt;&#xA;&lt;li&gt;Pod volumes&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;Services&#xA;&lt;ul&gt;&#xA;&lt;li&gt;NodePort&lt;/li&gt;&#xA;&lt;li&gt;LoadBalancer&lt;/li&gt;&#xA;&lt;li&gt;ExternalName&lt;/li&gt;&#xA;&lt;li&gt;External IP&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Part 06</title>
       <link>https://khushiramsingh680.github.io/eks/eks/part06/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part06/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;kubernetes-storage&#34;&gt;Kubernetes Storage&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Block Storage&lt;/li&gt;&#xA;&lt;li&gt;Object Storage&lt;/li&gt;&#xA;&lt;li&gt;File Storage&lt;/li&gt;&#xA;&lt;li&gt;Secret&lt;/li&gt;&#xA;&lt;li&gt;Configmap&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Part 07</title>
       <link>https://khushiramsingh680.github.io/eks/eks/part07/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part07/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;kubernetes-deployment&#34;&gt;Kubernetes Deployment&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Deployment&lt;/li&gt;&#xA;&lt;li&gt;Daemonset&lt;/li&gt;&#xA;&lt;li&gt;Statefulset&lt;/li&gt;&#xA;&lt;li&gt;Replicaset&lt;/li&gt;&#xA;&lt;li&gt;Job&lt;/li&gt;&#xA;&lt;li&gt;cronjob&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Part 08</title>
       <link>https://khushiramsingh680.github.io/eks/eks/part08/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part08/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;kubernetes-security&#34;&gt;Kubernetes Security&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Authentication and Authorization&lt;/li&gt;&#xA;&lt;li&gt;Roles and Rolebindings&lt;/li&gt;&#xA;&lt;li&gt;Clusterrole and Clusterrolebindings&lt;/li&gt;&#xA;&lt;li&gt;Managing Secret using Aws Secret manager&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Part 09</title>
       <link>https://khushiramsingh680.github.io/eks/eks/part09/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part09/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;kubernetes-data-protection&#34;&gt;Kubernetes Data Protection&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Kasten&lt;/li&gt;&#xA;&lt;li&gt;Velero&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Part 10</title>
       <link>https://khushiramsingh680.github.io/eks/eks/part10/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part10/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;kubernetes-monitoring-and-logging&#34;&gt;Kubernetes Monitoring and Logging&lt;/h2&gt;</description>
     </item>
     <item>
       <title>Part 11</title>
       <link>https://khushiramsingh680.github.io/eks/eks/part11/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part11/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;kubernetes-networking&#34;&gt;Kubernetes Networking&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;IngressController&lt;/li&gt;&#xA;&lt;li&gt;SSL Certificate&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Part 12</title>
       <link>https://khushiramsingh680.github.io/eks/eks/part12/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part12/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;kubernetes-tips-and-tricks&#34;&gt;Kubernetes Tips and Tricks&lt;/h2&gt;</description>
     </item>
   </channel>
 </rss>
