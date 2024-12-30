@@ -1,9 +1,9 @@
 +++
-title = "EKS Installation"
+title = "EKS Installation using eksctl"
 
 +++
 
-# EKS - Create Cluster
+## EKS - Create Cluster
 
 ## List of Topics 
 - Install CLIs
@@ -18,9 +18,9 @@ title = "EKS Installation"
   - EKS Fargate Profile
 - Delete EKS Clusters 
 
-# Install AWS, kubectl & eksctl CLI's
+## Install AWS, kubectl & eksctl CLI's
 
-## Step-00: Introduction
+### Step-00: Introduction
 - Install AWS CLI
 - Install kubectl CLI
 - Install eksctl CLI
@@ -37,8 +37,8 @@ curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
 # Install the binary
 sudo installer -pkg ./AWSCLIV2.pkg -target /
 ```
-- Verify the installation 
-```
+- **Verify the installation** 
+```bash
 aws --version
 aws-cli/2.0.7 Python/3.7.4 Darwin/19.4.0 botocore/2.0.0dev11
 
@@ -51,7 +51,7 @@ which aws
 - The AWS CLI version 2 supports only 64-bit versions of Windows.
 - Download Binary: https://awscli.amazonaws.com/AWSCLIV2.msi
 - Install the downloaded binary (standard windows install)
-```
+```bash
 aws --version
 aws-cli/2.0.8 Python/3.7.5 Windows/10 botocore/2.0.0dev12
 ```
@@ -65,7 +65,7 @@ aws-cli/2.0.8 Python/3.7.5 Windows/10 botocore/2.0.0dev12
 - Click on **Create access key**
 - Copy Access ID and Secret access key
 - Go to command line and provide the required details
-```
+```bash
 aws configure
 AWS Access Key ID [None]: ABCDEFGHIAZBERTUCNGG  (Replace your creds when prompted)
 AWS Secret Access Key [None]: uMe7fumK1IdDB094q2sGFhM5Bqt3HQRw3IHZzBDTm  (Replace your creds when prompted)
@@ -73,7 +73,7 @@ Default region name [None]: us-east-1
 Default output format [None]: json
 ```
 - Test if AWS CLI is working after configuring the above
-```
+```bash
 aws ec2 describe-vpcs
 ```
 
@@ -106,7 +106,7 @@ Output: Client Version: v1.16.8-eks-e16311
 
 ### Step-02-02: Windows 10 - Install and configure kubectl
 - Install kubectl on Windows 10 
-```
+```bash
 mkdir kubectlbinary
 cd kubectlbinary
 curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exe
@@ -415,4 +415,64 @@ kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernete
 
 # Verify ebs-csi pods running
 kubectl get pods -n kube-system
+```
+- **Testing the pvc**
+```bash
+cat <<EOF > my-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+EOF
+```
+- **Run below command
+```sh
+kubectl apply -f my-pvc.yaml
+```
+- **check pvc**
+```bash
+kubectl get pvc
+```
+
+- **Use the pvc with pod**
+```bash
+cat <<EOF > pod-with-pvc.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-pvc
+  namespace: default
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+    volumeMounts:
+    - name: my-volume
+      mountPath: /data
+  volumes:
+  - name: my-volume
+    persistentVolumeClaim:
+      claimName: my-pvc
+EOF
+```
+- **Run below**
+```bash
+kubectl apply -f pod-with-pvc.yaml
+```
+
+- **Make the storageclass default**
+```bash
+kubectl patch storageclass gp2 -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+```
+
+- **Kube Events** 
+```bash
+kubectl get events --sort-by='.metadata.creationTimestamp'
 ```
