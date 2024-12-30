@@ -13,7 +13,7 @@ title = "Part 05"
 - [Volumes in Pods](#volumes-in-pods)
 - [Pod Health Checks](#pod-health-checks)
 - [initContainer](#kubernetes-init-containers)
-- Services 
+- [Services](#kubernetes-services)
      - NodePort
      - LoadBalancer
      - ExternalName
@@ -103,7 +103,7 @@ Pods can use **Volumes** to share data between containers, and volumes persist a
 ---
 
 For detailed usage, configurations, and command examples related to Pods, refer to Kubernetes documentation or specific deployment needs.
-# Kubernetes Init Containers
+## Kubernetes Init Containers
 
 An **Init Container** is a special type of container that runs before the main containers in a Pod are started. They are typically used for initialization tasks, such as setting up configurations, checking prerequisites, or preparing the environment before the main application starts.
 
@@ -301,3 +301,156 @@ kubectl set env pod/mypod VAR_NAME=value
 ### 50. Delete a Pod Using Label Selector
 kubectl delete pod -l app=myapp
 
+
+## Kubernetes Services
+
+## Overview
+In Kubernetes, a **Service** is an abstraction that defines a logical set of Pods and a policy by which to access them. Services provide a stable IP address and DNS name for a set of Pods, ensuring seamless communication between components, even if Pods are replaced or restarted. 
+
+### Key Features of Services:
+- Decouples applications from underlying Pods.
+- Provides a single endpoint for accessing multiple Pods.
+- Ensures high availability by automatically routing traffic to healthy Pods.
+
+---
+
+## Types of Kubernetes Services
+
+Kubernetes offers several service types to cater to different use cases:
+
+1. **ClusterIP** (default)
+2. **NodePort**
+3. **LoadBalancer**
+4. **ExternalName**
+5. **External IP**
+
+Each service type has specific use cases, benefits, and limitations. Below are the details.
+
+---
+
+## 1. ClusterIP Service
+
+A **ClusterIP** service is the default service type in Kubernetes. It exposes the service only within the cluster, making it accessible from other services and Pods.
+
+### Use Cases
+- Internal communication between services.
+- Backend services that are not exposed to external traffic.
+
+### YAML Example
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-clusterip-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+```
+- **List all ClusterIP services:**
+```bash
+kubectl get svc --field-selector spec.type=ClusterIP
+```
+
+## NodePort Service
+
+A NodePort service exposes the application on a static port (NodePort) on each node's IP address. External users can access the application using <NodeIP>:<NodePort>.
+Use Cases
+
+  -  Exposing applications for external access.
+  -  Quick testing or debugging environments.
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodeport-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30001
+  type: NodePort
+```
+ ## LoadBalancer Service
+
+A LoadBalancer service exposes the application to the internet by provisioning an external load balancer. This service type is supported by most cloud providers.
+Use Cases
+
+   -  Hosting internet-facing applications.
+   - Automatically balancing traffic across multiple Pods.
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+```
+## ExternalName Service
+
+An ExternalName service maps a service to an external DNS name. It does not create a proxy or load balancer but allows Kubernetes to act as a DNS resolver for external services.
+Use Cases
+
+   - Accessing external resources like databases or APIs from within the cluster.
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-external-service
+spec:
+  type: ExternalName
+  externalName: example.com
+```
+## External IP Service
+
+An External IP service allows a specific external IP address to be routed to one or more Pods in the cluster.
+Use Cases
+
+  -  Exposing services to external networks using a predefined IP.
+  -  Interfacing with on-premises applications or devices.
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-externalip-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  externalIPs:
+    - 192.168.1.100
+```
+
+
+## Port and Service Forwarding
+
+## Overview
+Port forwarding allows you to access a service or Pod locally without exposing it to external traffic. This is useful for debugging or testing applications running inside the cluster.
+
+## Commands
+
+### Port Forward a Pod to a Local Port
+```bash
+kubectl port-forward pod/<pod-name> 8080:80
+```
+
+### Port Forward a Service to a Local Port
+```bash
+kubectl port-forward svc/<service-name> 9090:80
+```
