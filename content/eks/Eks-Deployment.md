@@ -31,11 +31,13 @@ weight = 2
 - Reference-2: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
 ### Step-01-01: MAC - Install and configure AWS CLI
 - Download the binary and install via command line using below two commands. 
-```
-# Download Binary
-curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
 
-# Install the binary
+## Download Binary
+```bash
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+```
+## Install the binary
+```bash
 sudo installer -pkg ./AWSCLIV2.pkg -target /
 ```
 - **Verify the installation** 
@@ -86,20 +88,25 @@ aws ec2 describe-vpcs
 ### Step-02-01: MAC - Install and configure kubectl
 - Kubectl version we are using here is 1.16.8 (It may vary based on Cluster version you are planning use in AWS EKS)
 
-```
-# Download the Package
+
+- **Download the Package**
+```bash
 mkdir kubectlbinary
 cd kubectlbinary
 curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl
-
-# Provide execute permissions
+```
+- **Provide execute permissions**
+```bash
 chmod +x ./kubectl
+```
 
-# Set the Path by copying to user Home Directory
+- **Set the Path by copying to user Home Directory**
+```bash
 mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
 echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
-
-# Verify the kubectl version
+```
+- **Verify the kubectl version**
+```bash
 kubectl version --short --client
 Output: Client Version: v1.16.8-eks-e16311
 ```
@@ -125,16 +132,16 @@ kubectl version --client
 ## Step-03: Install eksctl CLI
 ### Step-03-01: eksctl on Mac
 ```
-# Install Homebrew on MacOs
+## Install Homebrew on MacOs
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-# Install the Weaveworks Homebrew tap.
+## Install the Weaveworks Homebrew tap.
 brew tap weaveworks/tap
 
-# Install the Weaveworks Homebrew tap.
+## Install the Weaveworks Homebrew tap.
 brew install weaveworks/tap/eksctl
 
-# Verify eksctl version
+## Verify eksctl version
 eksctl version
 ```
 
@@ -147,7 +154,7 @@ eksctl version
 - https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
 
-# Create EKS Cluster & Node Groups
+## Create EKS Cluster & Node Groups
 
 ## Step-00: Introduction
 - Understand about EKS Core Objects
@@ -164,14 +171,14 @@ eksctl version
 ## Step-01: Create EKS Cluster using eksctl
 - It will take 15 to 20 minutes to create the Cluster Control Plane 
 
-# Create Cluster
+## Create Cluster
 ```bash
 eksctl create cluster --name=eksdemo1 \
                       --region=us-east-1 \
                       --zones=us-east-1a,us-east-1b \
                       --without-nodegroup 
 ```
-# Get List of clusters
+## Get List of clusters
 ```bash
 eksctl get cluster                  
 ```
@@ -181,14 +188,16 @@ eksctl get cluster
 - To enable and use AWS IAM roles for Kubernetes service accounts on our EKS cluster, we must create &  associate OIDC identity provider.
 - To do so using `eksctl` we can use the  below command. 
 - Use latest eksctl version (as on today the latest version is `0.21.0`)
-```                   
-# Template
+                  
+## Template
+```bash
 eksctl utils associate-iam-oidc-provider \
     --region region-code \
     --cluster <cluter-name> \
     --approve
-
-# Replace with region & cluster name
+```
+## Replace with region & cluster name
+```bash
 eksctl utils associate-iam-oidc-provider \
     --region us-east-1 \
     --cluster eksdemo1 \
@@ -204,8 +213,9 @@ eksctl utils associate-iam-oidc-provider \
 
 ## Step-04: Create Node Group with additional Add-Ons in Public Subnets
 - These add-ons will create the respective IAM policies for us automatically within our Node Group role.
- ```
-# Create Public Node Group   
+ 
+## Create Public Node Group   
+```bash
 eksctl create nodegroup --cluster=eksdemo1 \
                         --region=us-east-1 \
                         --name=eksdemo1-ng-public1 \
@@ -237,17 +247,21 @@ eksctl create nodegroup --cluster=eksdemo1 \
 - Go to Services -> Elastic Kubernetes Service -> eksdemo1
 
 ### List Worker Nodes
-```
-# List EKS clusters
+
+## List EKS clusters
+```bash
 eksctl get cluster
-
-# List NodeGroups in a cluster
+```
+## List NodeGroups in a cluster
+```bash
 eksctl get nodegroup --cluster=<clusterName>
-
-# List Nodes in current kubernetes cluster
+```
+## List Nodes in current kubernetes cluster
+```bash
 kubectl get nodes -o wide
-
-# Our kubectl context should be automatically changed to new cluster
+```
+## Our kubectl context should be automatically changed to new cluster
+```bash
 kubectl config view --minify
 ```
 
@@ -265,8 +279,9 @@ kubectl config view --minify
 
 ### Login to Worker Node using Keypai kube-demo
 - Login to worker node
-```
+
 # For MAC or Linux or Windows10
+```bash
 ssh -i kube-demo.pem ec2-user@<Public-IP-of-Worker-Node>
 
 # For Windows 7
@@ -281,7 +296,7 @@ Use putty
 - https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html
 
 
-# EKS Cluster Pricing
+## EKS Cluster Pricing
 
 ## Steo-01: Very Important EKS Pricing Note
 - EKS is not free (Unlike other AWS Services)
@@ -312,26 +327,26 @@ Use putty
 
 ## Step-01: Delete Node Group
 - We can delete a nodegroup separately using below `eksctl delete nodegroup`
-```
-# List EKS Clusters
+
+## List EKS Clusters
 eksctl get clusters
 
-# Capture Node Group name
+## Capture Node Group name
 eksctl get nodegroup --cluster=<clusterName>
 eksctl get nodegroup --cluster=eksdemo1
 
-# Delete Node Group
+## Delete Node Group
 eksctl delete nodegroup --cluster=<clusterName> --name=<nodegroupName>
 eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1
-```
+
 
 ## Step-02: Delete Cluster  
 - We can delete cluster using `eksctl delete cluster`
-```
-# Delete Cluster
+
+## Delete Cluster
 eksctl delete cluster <clusterName>
 eksctl delete cluster eksdemo1
-```
+
 
 ## Important Notes
 
