@@ -20,7 +20,7 @@ Node management in Kubernetes involves maintaining and managing the nodes in you
 ```bash
 kubectl get nodes
 ```
-# Node Management in Kubernetes
+## Node Management in Kubernetes
 
 ## Overview
 Node management in Kubernetes involves maintaining and managing the nodes in your cluster. Nodes are the physical or virtual machines where Pods run. Efficient management is critical to ensuring the availability, scaling, and health of your cluster.
