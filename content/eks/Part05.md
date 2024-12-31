@@ -522,3 +522,11 @@ kubectl port-forward pod/<pod-name> 8080:80
 ```bash
 kubectl port-forward svc/<service-name> 9090:80
 ```
+
+## Kubernetes 
+ - Resource Quota
+ - Resource Limits
+ - QOS
+     - Burstable
+     - Guarenteed
+  
