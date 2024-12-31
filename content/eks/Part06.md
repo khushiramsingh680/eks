@@ -5,6 +5,7 @@ title = "Part 06"
 
 ## Healthcheck Probes in Kubernetes
 - [Follow Details Documents from Here](https://k8s.selfstudy.space/part04/index.html) 
+  
 In Kubernetes, health checks are implemented using **liveness**, **readiness**, and **startup** probes. These probes ensure the application is running correctly and capable of serving requests. Below are examples for each type of probe.
 
 ## Types of Probes
@@ -18,46 +19,11 @@ In Kubernetes, health checks are implemented using **liveness**, **readiness**, 
 3. **Startup Probe**  
    Ensures the application has started. It is useful for containers that take a long time to initialize.
 
-## Example Configuration
-
-Below is an example of a pod configuration with all three types of probes:
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: healthcheck-example
-spec:
-  containers:
-  - name: example-container
-    image: nginx
-    ports:
-    - containerPort: 80
-    livenessProbe:
-      httpGet:
-        path: /healthz
-        port: 80
-      initialDelaySeconds: 5
-      periodSeconds: 10
-    readinessProbe:
-      httpGet:
-        path: /readiness
-        port: 80
-      initialDelaySeconds: 5
-      periodSeconds: 10
-    startupProbe:
-      httpGet:
-        path: /startup
-        port: 80
-      initialDelaySeconds: 10
-      periodSeconds: 10
-```
-
 
 ## Kubernetes Pod Scheduling 
-- [Follow this tutorial for Kubernetes pod scheduling](https://k8s.selfstudy.space/part02/index.html)
+- [Follow this tutorial for Kubernetes pod scheduling](https://k8s.selfstudy.space/part02/index.html#advance-scheduling-of--pod)
 ## Kubernetes Storage 
-- [Follow Documentation for Kubernetes Storage](https://k8s.selfstudy.space/part04/index.html)
+- [Follow Documentation for Kubernetes Storage](https://k8s.selfstudy.space/part04/index.html#kubernetes-storage)
   - Block Storage 
   - Object Storage
   - File Storage
