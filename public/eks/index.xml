@@ -47,14 +47,14 @@
       <link>https://khushiramsingh680.github.io/eks/eks/part06/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part06/</guid>
-      <description>&lt;h2 id=&#34;healthcheck-probes-in-kubernetes&#34;&gt;Healthcheck Probes in Kubernetes&lt;/h2&gt;&#xA;&lt;p&gt;In Kubernetes, health checks are implemented using &lt;strong&gt;liveness&lt;/strong&gt;, &lt;strong&gt;readiness&lt;/strong&gt;, and &lt;strong&gt;startup&lt;/strong&gt; probes. These probes ensure the application is running correctly and capable of serving requests. Below are examples for each type of probe.&lt;/p&gt;&#xA;&lt;h2 id=&#34;types-of-probes&#34;&gt;Types of Probes&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Liveness Probe&lt;/strong&gt;&lt;br&gt;&#xA;Ensures the application is running. If the liveness probe fails, Kubernetes restarts the container.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Readiness Probe&lt;/strong&gt;&lt;br&gt;&#xA;Ensures the application is ready to serve traffic. If the readiness probe fails, Kubernetes removes the pod from the service endpoints.&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;healthcheck-probes-in-kubernetes&#34;&gt;Healthcheck Probes in Kubernetes&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part04/index.html&#34;&gt;Follow Details Documents from Here&lt;/a&gt;&#xA;In Kubernetes, health checks are implemented using &lt;strong&gt;liveness&lt;/strong&gt;, &lt;strong&gt;readiness&lt;/strong&gt;, and &lt;strong&gt;startup&lt;/strong&gt; probes. These probes ensure the application is running correctly and capable of serving requests. Below are examples for each type of probe.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;types-of-probes&#34;&gt;Types of Probes&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Liveness Probe&lt;/strong&gt;&lt;br&gt;&#xA;Ensures the application is running. If the liveness probe fails, Kubernetes restarts the container.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Readiness Probe&lt;/strong&gt;&lt;br&gt;&#xA;Ensures the application is ready to serve traffic. If the readiness probe fails, Kubernetes removes the pod from the service endpoints.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Part 07</title>
       <link>https://khushiramsingh680.github.io/eks/eks/part07/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part07/</guid>
-      <description>&lt;h2 id=&#34;kubernetes-deployment&#34;&gt;Kubernetes Deployment&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Deployment&lt;/li&gt;&#xA;&lt;li&gt;Daemonset&lt;/li&gt;&#xA;&lt;li&gt;Statefulset&lt;/li&gt;&#xA;&lt;li&gt;Replicaset&lt;/li&gt;&#xA;&lt;li&gt;Job&lt;/li&gt;&#xA;&lt;li&gt;cronjob&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+      <description>&lt;h2 id=&#34;kubernetes-objects&#34;&gt;Kubernetes Objects&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part03/index.html#deployment&#34;&gt;Kubernetes Deployment&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part03/index.html#replicaset&#34;&gt;Kubernetes replicaset&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part03/index.html#daemonsethttpskubernetesiodocsconceptsworkloadscontrollersdaemonset&#34;&gt;Daemonset&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part04/index.html#statefulsets&#34;&gt;Statefulset&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part03/index.html#replicaset&#34;&gt;Replicaset&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part03/index.html#job&#34;&gt;Job&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part03/index.html#cronjob&#34;&gt;cronjob&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Part 08</title>
@@ -82,7 +82,7 @@
       <link>https://khushiramsingh680.github.io/eks/eks/part11/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part11/</guid>
-      <description>&lt;h2 id=&#34;kubernetes-networking&#34;&gt;Kubernetes Networking&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;IngressController&lt;/li&gt;&#xA;&lt;li&gt;SSL Certificate&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+      <description>&lt;h2 id=&#34;kubernetes-networking&#34;&gt;Kubernetes Networking&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k8s.selfstudy.space/part04/index.html#ingresscontroller&#34;&gt;IngressController&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;SSL Certificate&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Part 12</title>

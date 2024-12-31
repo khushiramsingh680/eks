@@ -4,7 +4,7 @@ title = "Part 06"
 +++
 
 ## Healthcheck Probes in Kubernetes
-
+- [Follow Details Documents from Here](https://k8s.selfstudy.space/part04/index.html) 
 In Kubernetes, health checks are implemented using **liveness**, **readiness**, and **startup** probes. These probes ensure the application is running correctly and capable of serving requests. Below are examples for each type of probe.
 
 ## Types of Probes
