@@ -55,8 +55,9 @@ spec:
 
 
 ## Kubernetes Pod Scheduling 
-[Follow this tutorial](https://k8s.selfstudy.space/part02/index.html)
+- [Follow this tutorial for Kubernetes pod scheduling](https://k8s.selfstudy.space/part02/index.html)
 ## Kubernetes Storage 
+- [Follow Documentation for Kubernetes Storage](https://k8s.selfstudy.space/part04/index.html)
   - Block Storage 
   - Object Storage
   - File Storage
