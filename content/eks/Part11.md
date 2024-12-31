@@ -57,11 +57,8 @@ title = "Part 11"
 
 
 
----
-title: AWS Load Balancer Controller Install on AWS EKS
-description: Learn to install AWS Load Balancer Controller for Ingress Implementation on AWS EKS
----
- 
+
+## AWS Load Balancer Controller Install on AWS EKS
 
 ## Step-00: Introductionv
 1. Create IAM Policy and make a note of Policy ARN
