@@ -47,7 +47,7 @@
       <link>https://khushiramsingh680.github.io/eks/eks/part06/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://khushiramsingh680.github.io/eks/eks/part06/</guid>
-      <description>&lt;h2 id=&#34;kubernetes-storage&#34;&gt;Kubernetes Storage&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Block Storage&lt;/li&gt;&#xA;&lt;li&gt;Object Storage&lt;/li&gt;&#xA;&lt;li&gt;File Storage&lt;/li&gt;&#xA;&lt;li&gt;Secret&lt;/li&gt;&#xA;&lt;li&gt;Configmap&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+      <description>&lt;h2 id=&#34;healthcheck-probes-in-kubernetes&#34;&gt;Healthcheck Probes in Kubernetes&lt;/h2&gt;&#xA;&lt;p&gt;In Kubernetes, health checks are implemented using &lt;strong&gt;liveness&lt;/strong&gt;, &lt;strong&gt;readiness&lt;/strong&gt;, and &lt;strong&gt;startup&lt;/strong&gt; probes. These probes ensure the application is running correctly and capable of serving requests. Below are examples for each type of probe.&lt;/p&gt;&#xA;&lt;h2 id=&#34;types-of-probes&#34;&gt;Types of Probes&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Liveness Probe&lt;/strong&gt;&lt;br&gt;&#xA;Ensures the application is running. If the liveness probe fails, Kubernetes restarts the container.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Readiness Probe&lt;/strong&gt;&lt;br&gt;&#xA;Ensures the application is ready to serve traffic. If the readiness probe fails, Kubernetes removes the pod from the service endpoints.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Part 07</title>

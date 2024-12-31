@@ -153,155 +153,205 @@ spec:
 ## Pod Related Commands
 
 ### 1. Create a Pod
+```bash
 kubectl run mypod --image=nginx
-
+```
 ### 2. Create a Pod from YAML
+```bash
 kubectl apply -f pod.yaml
-
+```
 ### 3. View Pod Details
+```bash
 kubectl describe pod mypod
-
+```
 ### 4. List All Pods
+```bash
 kubectl get pods
-
+```
 ### 5. List Pods in All Namespaces
+```bash
 kubectl get pods --all-namespaces
-
+```
 ### 6. Get Pod Logs
+```bash
 kubectl logs mypod
-
+```
 ### 7. View Logs of a Specific Container
+```bash
 kubectl logs mypod -c mycontainer
-
+```
 ### 8. View Previous Pod Logs
+```bash
 kubectl logs mypod --previous
-
+```
 ### 9. Get Pod Logs with Timestamps
+```bash
 kubectl logs mypod --timestamps
-
+```
 ### 10. Stream Pod Logs
+```bash
 kubectl logs -f mypod
-
+```
 ### 11. Exec into a Pod
+```bash
 kubectl exec -it mypod -- /bin/bash
-
+```
 ### 12. Run a Command in a Specific Container
+```bash
 kubectl exec -it mypod -c mycontainer -- /bin/bash
-
+```
 ### 13. Check Pod Resource Usage
+```bash
 kubectl top pod mypod
-
+```
 ### 14. Scale a Deployment (Pods)
+```bash
 kubectl scale deployment mydeployment --replicas=3
-
+```
 ### 15. Delete a Pod
+```bash
 kubectl delete pod mypod
-
+```
 ### 16. Delete All Pods in a Namespace
+```bash
 kubectl delete pods --all --namespace=mynamespace
-
+```
 ### 17. Delete Pods by Label
+```bash
 kubectl delete pods -l app=myapp
-
+```
 ### 18. Get Pod Events
+```bash
 kubectl get events --field-selector involvedObject.name=mypod
-
+```
 ### 19. Apply a Pod Configuration
+```bash
 kubectl apply -f pod.yaml
-
+```
 ### 20. Show Pod Details in Wide Format
+```bash
 kubectl get pods -o wide
-
+```
 ### 21. Check Pod Status
+```bash
 kubectl get pod mypod -o=jsonpath='{.status.phase}'
-
+```
 ### 22. Get Pod Resource Requests and Limits
+```bash
 kubectl get pod mypod -o=jsonpath='{.spec.containers[*].resources}'
-
+```
 ### 23. Create a Pod with Multiple Containers
+```bash
 kubectl apply -f multi-container-pod.yaml
-
+```
 ### 24. Check Pod’s Running Nodes
+```bash
 kubectl get pod mypod -o=jsonpath='{.spec.nodeName}'
-
+```
 ### 25. Create Pod with Host Network
+```bash
 kubectl run mypod --image=nginx --host-network=true
-
+```
 ### 26. Attach to a Pod’s Container
+```bash
 kubectl attach -it mypod -c mycontainer
-
+```
 ### 27. Port Forward to a Pod
+```bash
 kubectl port-forward pod/mypod 8080:80
-
+```
 ### 28. Check Pod’s IP Address
+```bash
 kubectl get pod mypod -o=jsonpath='{.status.podIP}'
-
+```
 ### 29. Get Pod in JSON Format
+```bash
 kubectl get pod mypod -o json
-
+```
 ### 30. Get Pod in YAML Format
+```bash
 kubectl get pod mypod -o yaml
-
+```
 ### 31. Set Pod Annotations
+```bash
 kubectl annotate pod mypod key=value
-
+```
 ### 32. Set Pod Labels
+```bash
 kubectl label pod mypod key=value
-
+```
 ### 33. Check Pod's Node Affinity
+```bash
 kubectl get pod mypod -o=jsonpath='{.spec.affinity.nodeAffinity}'
-
+```
 ### 34. Create a Pod with a Persistent Volume
+```bash
 kubectl apply -f pod-with-pv.yaml
-
+```
 ### 35. Evict a Pod
+```bash
 kubectl evict mypod
-
+```
 ### 36. Create Pod with Resource Requests and Limits
+```bash
 kubectl apply -f pod-with-resources.yaml
-
+```
 ### 37. Check Pod Health (Probes)
+```bash
 kubectl describe pod mypod
-
+```
 ### 38. Create a Pod with Secrets
+```bash
 kubectl apply -f pod-with-secret.yaml
-
+```
 ### 39. Create a Pod with ConfigMap
+```bash
 kubectl apply -f pod-with-configmap.yaml
-
+```
 ### 40. Check Pod’s Resource Usage in All Namespaces
+```bash
 kubectl top pod --all-namespaces
-
+```
 ### 41. Create a Pod with Init Containers
+```bash
 kubectl apply -f pod-with-init-containers.yaml
-
+```
 ### 42. Check Pod Events in JSON
+```bash
 kubectl get events --field-selector involvedObject.name=mypod -o json
-
+```
 ### 43. View the Pod’s Resource Quotas
+```bash
 kubectl describe resourcequota
-
+```
 ### 44. View the Pod’s Service Account
+```bash
 kubectl get pod mypod -o=jsonpath='{.spec.serviceAccountName}'
-
+```
 ### 45. Run a Pod in the Background
+```bash
 kubectl run mypod --image=nginx --restart=Never
-
+```
 ### 46. Get All Pods in a Specific Namespace
+```bash
 kubectl get pods -n mynamespace
-
+```
 ### 47. Check Pod’s Restart Count
+```bash
 kubectl get pod mypod --show-labels
-
+```
 ### 48. Edit a Pod’s Configuration
+```bash
 kubectl edit pod mypod
-
+```
 ### 49. Set Pod Environment Variables
+```bash
 kubectl set env pod/mypod VAR_NAME=value
-
+```
 ### 50. Delete a Pod Using Label Selector
+```bash
 kubectl delete pod -l app=myapp
-
+```
 
 ## LAB 01
 -  Login to a pod
