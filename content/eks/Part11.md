@@ -10,7 +10,7 @@ title = "Part 11"
 
 ## EKS ALB LoadBalancer IngressController
 
-# Load Balancing workloads on EKS using AWS Application Load Balancer
+## Load Balancing workloads on EKS using AWS Application Load Balancer
 
 ## Topics
 - We will be looking in to this topic very extensively in a step by step and module by module model. 
