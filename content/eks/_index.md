@@ -8,18 +8,18 @@ weight = 1
 
 | **Part** | **Topic**                                                      |
 |----------|----------------------------------------------------------------|
-| [Part 01](#part-01) | Node Management in Kubernetes                                  |
-| [Part 02](#part-02) | EKS - Create Cluster                                           |
-| [Part 03](#part-03) | eksctl CLI for Amazon EKS                                      |
-| [Part 04](#part-04) | Steps to Create EKS Cluster with Existing VPC and Custom VPC Using eksctl |
-| [Part 05](#part-05) | EKS - Create EKS Node Group in Private Subnets                 |
-| [Part 06](#part-06) | Pod & Services and Pod Scheduling                              |
-| [Part 07](#part-07) | Healthcheck Probes in Kubernetes & Kubernetes Storage          |
-| [Part 08](#part-08) | Kubernetes Objects                                             |
-| [Part 09](#part-09) | Kubernetes Security                                            |
-| [Part 10](#part-10) | Kubernetes Data Protection                                     |
-| [Part 11](#part-11) | Kubernetes Monitoring and Logging                              |
-| [Part 12](#part-12) | Kubernetes Networking                                          |
+| [Part 01](./part01/) | Node Management in Kubernetes                                  |
+| [Part 02](./part-02) | EKS - Create Cluster                                           |
+| [Part 03](./part-03) | eksctl CLI for Amazon EKS                                      |
+| [Part 04](./part-04) | Steps to Create EKS Cluster with Existing VPC and Custom VPC Using eksctl |
+| [Part 05](./part-05) | EKS - Create EKS Node Group in Private Subnets                 |
+| [Part 06](./part-06) | Pod & Services and Pod Scheduling                              |
+| [Part 07](./part-07) | Healthcheck Probes in Kubernetes & Kubernetes Storage          |
+| [Part 08](./part-08) | Kubernetes Objects                                             |
+| [Part 09](./part-09) | Kubernetes Security                                            |
+| [Part 10](./part-10) | Kubernetes Data Protection                                     |
+| [Part 11](./part-11) | Kubernetes Monitoring and Logging                              |
+| [Part 12](./part-12) | Kubernetes Networking                                          |
 
 ---
 
