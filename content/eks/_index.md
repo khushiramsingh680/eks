@@ -4,6 +4,21 @@ type = "chapter"
 weight = 1
 +++
 
+| **Part** | **Topic**                                                      |
+|----------|----------------------------------------------------------------|
+| Part 01  | Node Management in Kubernetes                                  |
+| Part 02  | EKS - Create Cluster                                           |
+| Part 03  | eksctl CLI for Amazon EKS                                      |
+| Part 04  | Steps to Create EKS Cluster with Existing VPC and Custom VPC Using eksctl |
+| Part 05  | EKS - Create EKS Node Group in Private Subnets                 |
+| Part 06  | Pod & Services and Pod Scheduling                              |
+| Part 07  | Healthcheck Probes in Kubernetes & Kubernetes Storage          |
+| Part 08  | Kubernetes Objects                                             |
+| Part 09  | Kubernetes Security                                            |
+| Part 10  | Kubernetes Data Protection                                     |
+| Part 11  | Kubernetes Monitoring and Logging                              |
+| Part 12  | Kubernetes Networking                                          |
+
 ## Cluster Setup and Configuration
 
 ### Create AWS EKS Cluster using eksctl CLI
@@ -194,3 +209,5 @@ weight = 1
 
 ### Deployment Strategies
 - **Canary Deployments**: Gradual updates for testing and stability.
+
+
