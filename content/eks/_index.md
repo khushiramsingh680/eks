@@ -7,7 +7,7 @@ weight = 1
 ## **Table of Contents**
 | **Part** | **Topic**                                                      |
 |----------|----------------------------------------------------------------|
-| [Part 01](./Part01.md) | Node Management in Kubernetes                                  |
+| [Part 01](./Eks-Deployment.md) | Node Management in Kubernetes                                  |
 | [Part 02](./Part02.md) | EKS - Create Cluster                                           |
 | [Part 03](./Part03.md) | eksctl CLI for Amazon EKS                                      |
 | [Part 04](./Part04.md) | Steps to Create EKS Cluster with Existing VPC and Custom VPC Using eksctl |
