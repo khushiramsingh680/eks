@@ -17,7 +17,7 @@ weight = 1
 | Part 09  | Kubernetes Security                                            |
 | Part 10  | Kubernetes Data Protection                                     |
 | Part 11  | Kubernetes Monitoring and Logging                              |
-| Part 12  | Kubernetes Networking                                          |
+| Part 12  | Kubernetes Networking & Ingress Controller                                         |
 
 ## Cluster Setup and Configuration
 
